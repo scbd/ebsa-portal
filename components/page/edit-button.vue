@@ -15,8 +15,8 @@ const { t               }          = useI18n         ();
 const { isAuthenticated, hasRole } = useScbdAuth     ();
 const { oasisApi        }          = useRuntimeConfig().public;
 
-const editRoles = ["oasisArticleEditor", "CBD_EDIT-MAR"];
-
+const editRoles = ["oasisArticleEditor", "CBD_EDIT-MAR", 'Administrator'];
+tor
 const editUri = computed(()=>`${oasisApi}/articles/${_id.value}/edit?returnUrl=${encodeURIComponent(url.href)}`);
 
 
