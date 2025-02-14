@@ -1,23 +1,47 @@
 {
-  "name": "ebsa.cbd.int",
-  "description": "Ecologically or Biologically Significant Marine Areas (EBSAs)",
-  "dependencies": {
-    "async": "1.5.1",
-    "express": "^4.16.4",
-    "http-proxy": "1.12.0",
-    "jquery": "2.1.4",
-    "jsdom": "7.2.2",
-    "lunr": "0.6.0",
-    "@bower_components/angular-growl": "https://github.com/marcorinck/angular-growl#0.4.0",
-    "@bower_components/es-breadcrumbs": "https://github.com/egesu/ng-breadcrumbs#v0.4.1",
-    "@bower_components/geojson-area": "https://github.com/cloudnapps/geojson-area#v0.2.3"
-  },
-  "engine": "node >= 10",
-  "private": "true",
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "start": "node server"
+    "build": "nuxt build",
+    "dev": "rm -rf .data && nuxt cleanup && nuxt dev ",
+    "dev-open": "rm -rf .data && nuxt cleanup && nuxt dev --open ",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "clean-reinstall": "if test -f node_modules; then rm -rf node_modules; fi &&  yarn install --force;"
+  },
+  "dependencies": {
+    "@nuxt/image": "1.9.0",
+    "@nuxt/scripts": "0.9.5",
+    "@nuxtjs/algolia": "1.10.2",
+    "@nuxtjs/google-fonts": "3.2.0",
+    "@nuxtjs/i18n": "9.1.5",
+    "@scbd/ckeditor5-build-inline-full": "^35.0.0",
+    "@vueuse/core": "^12.5.0",
+    "bootstrap": "5.3.3",
+    "click-outside-vue3": "^4.0.1",
+    "lodash.clonedeep": "^4.5.0",
+    "luxon": "^3.5.0",
+    "mitt": "^3.0.1",
+    "nuxt": "3.15.4",
+    "nuxt-delay-hydration": "^1.3.8",
+    "nuxt-seo-utils": "6.0.8",
+    "nuxt-viewport": "^2.2.0",
+    "path-normalize": "^6.0.13",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.11",
+    "vue": "latest",
+    "vue-final-modal": "^4.5.5",
+    "vue-multiselect": "^3.2.0",
+    "vue-router": "latest"
+  },
+  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447",
+  "devDependencies": {
+    "sass": "1.83.4",
+    "sass-loader": "16.0.4"
   },
   "engines": {
-    "yarn": ">= 1.0.0"
+    "node": ">=20.0.0"
   }
 }
