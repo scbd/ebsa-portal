@@ -1,21 +1,25 @@
-FROM node:14.3-alpine
+FROM node:20
+
+RUN apt update && \
+    apt install yarn curl -y
 
 WORKDIR /usr/src/app
 
-COPY package.json .npmrc ./
+COPY package.json ./
 
-RUN apk add git curl && \
-    yarn install -q
-
-ENV PORT 8000
-
-EXPOSE 8000
+RUN yarn clean-reinstall
 
 COPY . ./
 
-RUN node siteSearch/indexer/index.js
+RUN yarn build
 
-ARG VERSION
-ENV VERSION $VERSION
+ENV PORT=8000
 
-CMD [ "node", "server" ]
+EXPOSE 8000
+
+ENV NUXT_HOST=0.0.0.0
+ENV NUXT_PORT=8000
+
+
+
+CMD ["node", "--max-http-header-size=32768",".output/server/index.mjs"]
