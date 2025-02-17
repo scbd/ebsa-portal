@@ -41,11 +41,13 @@
     const { t }          = useI18n();
     const numberFound    = computed(() => data.value.length);
     
-    onMounted(() => {
-      setTimeout(() => loading.value = false, 500);
-    })
+    watch(passedData, (newVal) => {
 
-  
+        if(!newVal.length) return;
+              
+        setTimeout(() => loading.value = false, 500);
+
+    }, { immediate: true }); 
   </script>
   
   <style scoped>

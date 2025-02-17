@@ -68,11 +68,7 @@
   const data           = computed(() => passedData.value.filter(item => item[filterProperty.value] === selectedFilter.value));
   const numberFound    = computed(() => data.value.length);
   
-  consola.warn(filters.value)
 
-  onMounted(() => {
-    setTimeout(() => loading.value = false, 500);
-  })
   function onFiltersClick() {
     showFilters.value = !showFilters.value;
   }
@@ -82,6 +78,13 @@
     showFilters.value = false;
   }
 
+  watch(passedData, (newVal) => {
+
+    if(!newVal.length) return;
+
+    setTimeout(() => loading.value = false, 500);
+
+  }, { immediate: true }); 
 </script>
 
 <style scoped>
