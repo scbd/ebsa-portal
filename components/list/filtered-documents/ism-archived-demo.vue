@@ -9,9 +9,9 @@ const getFilters   = useIsmYearFilter();
 const getIsmDocs   = useEbsaDocuments();
 const filterTitle  = ref('Created Year');
 
-const filters = (await getFilters()).data;
-const data    = sampleMultiple((await getIsmDocs()).data.value);
-
-
+const filters     = (await getFilters()).data;
+const rawData     = (await getIsmDocs()).data.value;
+const sampleData  = sampleMultiple(rawData);
+const data        = ref(sampleData);
 
 </script>

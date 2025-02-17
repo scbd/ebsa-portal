@@ -9,8 +9,9 @@ const getRegions  = useEbsaRegions();
 const getEbsaDocs = useEbsaDocuments();
 const filterTitle = ref('EBSA Regions');
 
-const filters = (await getRegions()).data;
-const data    = ref(sampleMultiple((await getEbsaDocs()).data.value));
+const filters     = (await getRegions()).data;
+const rawData     = (await getEbsaDocs()).data.value;
+const data        = sampleMultiple(rawData);
 
 
 </script>
