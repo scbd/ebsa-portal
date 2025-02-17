@@ -27,7 +27,7 @@ export const useMeetings = () => {
                                         "rows"  : 5
                                     })});
 
-        const { data, status, error, refresh } =  await useFetch(`https://api.cbd.int/api/v2013/index`, {  method: 'GET', query, key:key.value, getCachedData, transform }); 
+        const { data, status, error, refresh } =  await useFetch(`${cbdApi}/api/v2013/index`, {  method: 'GET', query, key:key.value, getCachedData, transform }); 
 
     
         return { data, status, error, refresh };
@@ -123,7 +123,7 @@ export const useMeetingFilters = () => {
                                         "rows"  : 99999
                                     }));
 
-        const { data, status, error, refresh } =  await useFetch(`https://api.cbd.int/api/v2013/index`, {  method: 'GET', query, key:key.value, getCachedData, transform }); 
+        const { data, status, error, refresh } =  await useFetch(`${cbdApi}/api/v2013/index`, {  method: 'GET', query, key:key.value, getCachedData, transform }); 
 
         return { data, status, error, refresh };
     }  

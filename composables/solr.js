@@ -2,7 +2,7 @@
 
 export async function queryIndex(searchQuery) {
     const { cbdApi }       = useRuntimeConfig().public;
-    const result = await useFetch(`https://api.cbd.int/api/v2013/index/select`, { method: 'POST', body: searchQuery })
+    const result = await useFetch(`${cbdApi}/api/v2013/index/select`, { method: 'POST', body: searchQuery })
 
     const searchResult = {
         docs: result.response.docs,
