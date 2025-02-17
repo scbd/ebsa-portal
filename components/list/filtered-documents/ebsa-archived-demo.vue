@@ -1,5 +1,7 @@
 <template>
-    <LazyListFilteredDocuments :data="data" :filters="filters" :filterTitle="filterTitle" />
+        <ClientOnly>
+            <LazyListFilteredDocuments :data="data" :filters="filters" :filter-title="filterTitle" />
+        </ClientOnly>
 </template>
 
 <script setup>

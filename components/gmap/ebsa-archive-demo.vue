@@ -1,7 +1,7 @@
 
 <template>
 
-    <LazyGmap color="red":filters="regions" :dataMap="regionMap" :filterTitle="filterTitle" :filterAllTitle="filterAllTitle"/>
+    <LazyGmap color="red":filters="regions" :data-map="regionMap" :filter-title="filterTitle" :filter-all-title="filterAllTitle"/>
 
 </template>
 
