@@ -18,7 +18,7 @@
                 <p >{{item.title}}</p>
               </td>
               <td>
-                <NuxtLink :to="item.url" external target="_blank" class="float-end" >Details »</NuxtLink>
+                <NuxtLink :to="item.url" external target="_blank" class="float-end" >{{t('Details')}} »</NuxtLink>
               </td>
             </tr>
             <tr v-if="!numberFound">
@@ -31,8 +31,8 @@
   </template>
   <script setup>
     const loading = ref(true);
-    const props = defineProps({   
-                                  data           : { type: Array  },
+    const props   = defineProps({   
+                                  data     : { type: Array , default: ()=>[] },
                                   title    : { type: String },
                               });
   
