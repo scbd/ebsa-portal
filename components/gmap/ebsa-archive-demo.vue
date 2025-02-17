@@ -13,23 +13,9 @@
 
     const regions        = (await getRegions()).data;
     const shapes         = (await getShapes()).data;
-    const regionMap      = makeRegionMap(regions, shapes);
+    const regionMap      = makeRegionMapSample(regions, shapes);
     const filterTitle    = t('Archived EBSAs');
     const filterAllTitle = t('All Regions');
-
-
-    function makeRegionMap(regions, shapes){
-        const regionMap = {};
-
-        for (const { identifier } of toRaw(regions.value)) {
-            const features = sampleMultiple((unref(shapes).filter(({ region_s }) => region_s === identifier).map(s=>s.features)).flat().filter(Boolean).map(f=> toRaw(f)));
-
-            regionMap[identifier] = { type: 'FeatureCollection', features };
-        }
-
-        return toRaw(regionMap)
-    }
-
 
 </script>
 

@@ -1,6 +1,30 @@
 
 import { DateTime } from 'luxon';
 
+export function makeRegionMap(regions, shapes){
+    const regionMap = {};
+
+    for (const { identifier } of regions.value) {
+        const features = (shapes.value?.filter(({ region_s }) => region_s === identifier).map(s=>s.features)).flat().filter(Boolean);
+
+        regionMap[identifier] = { type: 'FeatureCollection', features };
+    }
+
+    return regionMap
+}
+
+export function makeRegionMapSample(regions, shapes){
+    const regionMap = {};
+
+    for (const { identifier } of regions.value) {
+        const features = sampleMultiple((shapes.value?.filter(({ region_s }) => region_s === identifier).map(s=>s.features)).flat().filter(Boolean));
+
+        regionMap[identifier] = { type: 'FeatureCollection', features };
+    }
+
+    return regionMap
+}
+
 export function getLocalizedMonth(monthNumber, options = { length: 'short', locale: 'en' }) {
     const { length, locale } = options;
     const locales = ['en', 'ar', 'es', 'fr', 'ru', 'zh'];

@@ -3,9 +3,9 @@
     <ClientOnly>
       <div ref="googleCont" class="row">
         <div  v-if="hasFilters" class="col-2 regions">
-          <h3 class="my-2">{{filterTitle}}</h3>
+          <h3 class="my-2">{{t(filterTitle)}}</h3>
           <div @click="selectFilter('all')" class="region selected">{{filterAllTitle}}</div>
-          <div @click="selectFilter(filter.identifier)" v-for="filter of filters" class="region">{{filter.title}}</div>
+          <div @click="selectFilter(filter.identifier)" v-for="filter of filters" class="region">{{t(filter.title)}}</div>
         </div>
         <div class="px-0 position-relative" :class="{ 'col-10': hasFilters, 'col-12': !hasFilters }">
           <Spinner v-if="!isLoaded" :size="300" :is-modal="true"/>
@@ -52,7 +52,6 @@ const { data, dataMap, filters, color, filterTitle, filterAllTitle, archives } =
   const googleCont = ref();
   const maps       = ref();
 
-  const regions        = ref([]);
   const isLoaded       = ref(false);
   const infoWindow     = ref();
   const mainMap        = ref()
@@ -88,16 +87,14 @@ function handleReady({ map, googleMaps }) {
 
   displayData(mainMap)
 
-  if(unref(filters) && unref(dataMap))
+  if(filters.value && dataMap.value)
     watch(selectedFilter, (id) => displayData(mainMap, id))
 
-  if(unref(filters) && unref(archives)?.dataMap && showArchives.value)
+  if(filters.value && archives?.value?.dataMap && showArchives.value)
     watch(selectedFilter, (id) => displayArchiveData(mainMap, id))
 
-  if(unref(archives)?.dataMap || unref(archives)?.data)
+  if(archives.value?.dataMap || archives.value?.data)
     watch(showArchives, (show) => show? displayArchiveData(mainMap) : clearMap(mainMap, true))
-    // displayArchiveData(mainMap, selectedFilter.value)
-
 
 }
 
@@ -116,14 +113,14 @@ function displayData(map, filterId = 'all') {
   
   clearMap(map)
 
-  if(unref(data)) map.value.data.addGeoJson(unref(data));
+  if(data.value) map.value.data.addGeoJson(data.value);
 
-  if(unref(dataMap)){
+  if(dataMap.value){
     if(filterId === 'all')
-      for (const fId in unref(dataMap))
-        map.value.data.addGeoJson(unref(dataMap)[fId]);
+      for (const fId in dataMap.value)
+        map.value.data.addGeoJson(dataMap.value[fId]);
     else
-      map.value.data.addGeoJson(unref(dataMap)[filterId]);
+      map.value.data.addGeoJson(dataMap.value[filterId]);
   }
 
   listener.value.push(map.value.data.addListener('click', setInfoWindow));
@@ -135,15 +132,15 @@ function displayArchiveData(map, filterId = 'all') {
   
   clearMap(map, true)
 
-  if(unref(archives).data) map.value.data.addGeoJson(unref(archives).data);
+  if(archives.value?.data) map.value.data.addGeoJson(archives.value.data);
 
-  if(unref(archives).dataMap){
+  if(archives.value?.dataMap){
     if(filterId === 'all')
-      for (const fId in unref(archives).dataMap)
-        map.value.data.addGeoJson(unref(archives).dataMap[fId]);
+      for (const fId in archives.value?.dataMap)
+        map.value.data.addGeoJson(archives.value?.dataMap[fId]);
 
     else
-      map.value.data.addGeoJson(unref(archives).dataMap[filterId]);
+      map.value.data.addGeoJson(archives.value?.dataMap[filterId]);
 
       applyStyles(map);
   }
