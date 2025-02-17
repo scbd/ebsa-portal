@@ -62,7 +62,7 @@ export const useEbsaDocuments = () => {
 
 
     return async ()=>{
-        const { data, status, error, refresh } =  await useFetch(`https://api.cbd.int/api/v2013/index`, {  method: 'GET', query, key:key.value, getCachedData,transform });
+        const { data, status, error, refresh } =  await useFetch(`${cbdApi}/api/v2013/index`, {  method: 'GET', query, key:key.value, getCachedData,transform });
 
   
         return { data, status, error, refresh };
@@ -143,7 +143,7 @@ export const useShapes = (isArchive=false) => {
                             "rows"  : 999999,
                         };
     return async ()=>{
-        const { data, status, error, refresh } =  await useFetch(`https://api.cbd.int/api/v2013/index`, {  method: 'GET', query, key:key.value, getCachedData,transform }); 
+        const { data, status, error, refresh } =  await useFetch(`${cbdApi}/api/v2013/index`, {  method: 'GET', query, key:key.value, getCachedData,transform }); 
 
 
         return { data, status, error, refresh };
@@ -247,7 +247,7 @@ export const useIsmYearFilter = () => {
 
 
     return async ()=>{
-        const { data, status, error, refresh } =  await useFetch(`https://api.cbd.int/api/v2013/index`, {  method: 'GET', query, key:key.value, getCachedData,transform });
+        const { data, status, error, refresh } =  await useFetch(`${cbdApi}/api/v2013/index`, {  method: 'GET', query, key:key.value, getCachedData,transform });
 
         return { data, status, error, refresh };
     }
