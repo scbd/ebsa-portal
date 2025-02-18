@@ -4,8 +4,8 @@
       <div ref="googleCont" class="row">
         <div  v-if="hasFilters" class="col-2 regions">
           <h3 class="my-2">{{t(filterTitle)}}</h3>
-          <div @click="selectFilter('all')" class="region selected">{{filterAllTitle}}</div>
-          <div @click="selectFilter(filter.identifier)" v-for="filter of filters" class="region">{{t(filter.title)}}</div>
+          <div @click="selectFilter('all')" class="region selected">{{t(filterAllTitle)}}</div>
+          <div @click="selectFilter(filter.identifier)" v-for="filter of filters" class="region">{{t(filter.identifier)}}</div>
         </div>
         <div class="px-0 position-relative" :class="{ 'col-10': hasFilters, 'col-12': !hasFilters }">
           <Spinner v-if="!isLoaded" :size="300" :is-modal="true"/>
@@ -23,7 +23,7 @@
           />
         </div>
         <div class="col-12 regions">
-          <span class="text-muted text-black-50">{{t('DISCLAIMER: The designations employed and the presentation of material in this map do not imply the expression of any opinion whatsoever on the part of the Secretariat concerning the legal status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries.')}}</span>
+          <span class="text-muted text-black-50">{{t('disclaimer')}}</span>
         </div>
       </div>
     </ClientOnly>

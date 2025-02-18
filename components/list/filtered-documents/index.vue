@@ -38,11 +38,11 @@
               <p >{{item.title}}</p>
             </td>
             <td>
-              <NuxtLink :to="item.url" external target="_blank" class="float-end" >Details »</NuxtLink>
+              <NuxtLink :to="item.url" external target="_blank" class="float-end text-nowrap" >{{t('Details')}} »</NuxtLink>
             </td>
           </tr>
           <tr v-if="!numberFound">
-            <td colspan="2">No records.</td>
+            <td colspan="2">{{$t('No records')}}.</td>
           </tr>
         </tbody></table>
       </div>
@@ -80,7 +80,7 @@
 
   watch(passedData, (newVal) => {
 
-    if(!newVal.length) return;
+    if(!newVal.length) return setTimeout(() => loading.value = false, 1000);;
 
     setTimeout(() => loading.value = false, 500);
 

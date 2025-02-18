@@ -43,9 +43,9 @@
     
     watch(passedData, (newVal) => {
 
-        if(!newVal.length) return;
-              
-        setTimeout(() => loading.value = false, 500);
+      if(!newVal.length) return setTimeout(() => loading.value = false, 1000);;
+
+      setTimeout(() => loading.value = false, 500);
 
     }, { immediate: true }); 
   </script>

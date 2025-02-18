@@ -8,7 +8,7 @@
               <img src="/img/cbd-whitelogo.png" alt="Convention on Biological Diversity" />
             </a>
             <br>
-            <small class="white">{{t('This website was developed with kind financial support from the Federal Ministry for the Environment, Nature Conservation, Building and Nuclear Safety of Germany (BMUB).')}}</small>
+            <small class="white">{{t('thisSiteDeveloped')}}</small>
           </div>
           <div class="col-3">
             <div class="push50">&nbsp;</div>
@@ -47,7 +47,7 @@
             <div class="clear"></div>
             <h4 class="white">{{t('CBD Secretariat')}}</h4>
 
-            <p>{{t('413, Saint Jacques Street, suite 800')}}<br />
+            <p>{{t('address413')}}<br />
               {{t('Montreal QC')}}<br />
               {{t('Canada H2Y 1N9')}}
             </p>
