@@ -297,6 +297,4 @@ export const useCountries = () => {
         }).sort((a,b)=> sortArrayOfObjectsByProp(a,b, 'title', 'asc'));
     }
 }
-// return $http.get('/api/v2013/thesaurus/domains/0AE91664-5C43-46FB-9959-0744AD1B0E91/terms', {cache:true}).then(function(response) {
-//     return $filter("orderBy")(response.data, 'title.en');
-// });
+

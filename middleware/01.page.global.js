@@ -6,7 +6,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const   path           = computed(()=> to?.path );
 
     const   locale         = nuxtApp.$i18n.locale;
-    const   key            = computed(()=>`page-${locale.value}${path.value?.replace(/\//g, '-')}`);
+    const   key            = computed(()=>`page-${locale.value}-${path.value?.replace(/\//g, '-')}`);
 
     const query = computed(() => {
                                     const $match   = { "adminTags" : { $all: ['ebsa-portal', removeLocaleFromPath(path.value) ]}};
@@ -18,7 +18,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                                 
                                     return { ag };
                                 });
-consola.error('locale changes', locale.value, path.value)
+
     const { data, status, error, refresh } =  await useFetch(`${cbdApi}/api/v2017/articles`, {  method: 'GET', query, key:key.value, getCachedData, transform }); 
 
     const title      = computed(()=>  data.value?.title? data.value.title[locale.value] : '');
