@@ -155,7 +155,7 @@ function setInfoWindow(event) {
     const tryI18n = record.tryI18n;
     const title   = tryI18n ? t(record.identifier) : record.title;
     const summary = (tryI18n ? t(`${record.identifier}-DESC`) : record.description).replace(/\r\n|\r|\n/g, '<br />');
-    const region  = record?.region?.title? `<em class="badge bg-info">${t(record?.region?.identifier)}</em>` : '';
+    const region  = record?.region? `<em class="badge bg-info">${t(record?.region?.identifier)}</em>` : '';
     const archive = record?.archive? `<span class="badge bg-danger">${t('Archived')}</span>` : '';
     const content =
         `<div id="infoBox" class="scrollFix">
@@ -177,9 +177,9 @@ function cleanupListeners(googleMaps, map, ) {
     for (const l of listener.value) 
         googleMaps.value.event.removeListener(l);
     
-    googleMaps.value.event.clearInstanceListeners(window);
-    googleMaps.value.event.clearInstanceListeners(window?.document);
-    googleMaps.value.event.clearInstanceListeners(map.value);
+    googleMaps.value?.event?.clearInstanceListeners(window);
+    googleMaps.value?.event?.clearInstanceListeners(window?.document);
+    googleMaps.value?.event?.clearInstanceListeners(map.value);
 }
 
 function clearMap(map, archives = false) {
