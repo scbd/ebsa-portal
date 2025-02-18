@@ -5,7 +5,7 @@
 
 
 <script setup >
-    const { t }              = useI18n();
+
     const getRegions         = useEbsaRegions();
     const getShapes          = useShapes();
     const getArchivedShapes  = useShapes(true);
@@ -15,8 +15,8 @@
     const regionMap      = makeRegionMap(regions, shapes);
     const archiveRegionMap = [];
     const archives       = { dataMap: archiveRegionMap };
-    const filterTitle    = t('View Areas Meeting the EBSA Criteria');
-    const filterAllTitle = t('All Regions');
+    const filterTitle    = 'View Areas Meeting the EBSA Criteria';
+    const filterAllTitle = 'All Regions';
 
 
 

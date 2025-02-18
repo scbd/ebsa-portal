@@ -4,7 +4,7 @@
               <div class="container">
                 <div class="row logo-title">
                   <div class="col-1">
-                    <a href="/ebsa" title="Ecologically or Biologically Significant Marine Areas">
+                    <a href="/ebsa" title="ebsaFullName">
                       <img src="/img/logo.png" alt="EBSAs logo" />
                     </a>
                   </div>
@@ -12,8 +12,8 @@
                   <div class="col-9 website-title ">
                     <div class="push15"></div>
 
-                      <h2>{{t('Ecologically or Biologically Significant Marine Areas')}}</h2>
-                      <h3>{{t(`Special places in the world's oceans`)}}</h3>
+                      <h2>{{t('ebsaFullName')}}</h2>
+                      <h3>{{t(`specialPlaces`)}}</h3>
                 
                   </div>
 

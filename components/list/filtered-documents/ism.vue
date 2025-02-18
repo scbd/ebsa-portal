@@ -1,5 +1,5 @@
 <template>
-    <LazyListFilteredDocuments :data="data" :filters="filters" :filterTitle="filterTitle"  filterProperty="year"/>
+    <LazyListFilteredDocuments :data="data" :filters="filters" :filter-title="filterTitle"  filter-property="year"/>
 </template>
 
 <script setup>
@@ -9,6 +9,5 @@ const filterTitle  = ref('Created Year');
 
 const filters = (await getFilters()).data;
 const data    = (await getIsmDocs()).data;
-
 
 </script>
