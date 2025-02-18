@@ -1,8 +1,8 @@
 
 <template>
-
+<ClientOnly>
     <LazyGmap color="red":filters="regions" :data-map="regionMap" :filter-title="filterTitle" :filter-all-title="filterAllTitle"/>
-
+</ClientOnly>
 </template>
 
 

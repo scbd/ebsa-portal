@@ -81,7 +81,7 @@ export const useEbsaDocuments = () => {
         const newRecords =  [];
 
         for (const r of records) {
-            const needsI18n = isEn.value? false : r.title_t !== r[`title_${locale.value.toLocaleUpperCase()}_t`];
+            const needsI18n = isEn.value? false : r.title_t === r[`title_${locale.value.toLocaleUpperCase()}_t`];
             
             const year = extractFirstFourChars(r.createdDate_dt);
             const url = r.url_ss[0];

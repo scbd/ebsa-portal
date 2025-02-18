@@ -1,6 +1,8 @@
 
 <template>
+<ClientOnly>
     <LazyGmap :dataMap="regionMap" :archives="archives" :filter-title="filterTitle" :filter-all-title="filterAllTitle"/>
+</ClientOnly>
 </template>
 
 
