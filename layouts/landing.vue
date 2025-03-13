@@ -1,9 +1,9 @@
 <template>
+    <LazyIconSymbols v-once/>
     <LazyPageHeader/>
       <div class="full-screen-video-container">
         <video autoplay loop muted>
-          <source src="/EBSA-LOGO-loop.mp4"
-           type="video/mp4" />
+          <source src="/EBSA-LOGO-loop-HQ.mp4" type="video/mp4" />
         </video>
         <div class="full-screen-video-content">
           <slot/>
@@ -12,9 +12,6 @@
 </template>
 
 <style lang="scss" scoped>
-// 856882-hd_1920_1080_24fps.mp4
-// 5919919-uhd_3840_2160_30fps.mp4
-//5919919-uhd_3840_2160_30fps (1).mp4
 .full-screen-video-container {
     position: relative;
     height: 95vh;
