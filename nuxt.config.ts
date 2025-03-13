@@ -7,7 +7,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   app: {
-    baseURL: '/ebsa'
+    baseURL: '/ebsa',
+    head: {
+      link: [{ rel: 'stylesheet', href: 'fonts.googleapis.com/css?family=Overlock:700italic' },{ rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Overlock:700' }],
+    }
   },
   extends:[
     './layers/scbd-auth'
@@ -28,7 +31,7 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxt/image',
     'nuxt-delay-hydration',
-    '@nuxtjs/google-fonts',
+    // '@nuxtjs/google-fonts',
     'nuxt-seo-utils',
     '@nuxt/scripts',
     'nuxt-viewport',
@@ -54,6 +57,13 @@ export default defineNuxtConfig({
     langDir              : '',
   },
   vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          sanitizeFileName: true,
+        },
+      },
+    },
     css: {
       preprocessorOptions: {
         scss: {
@@ -66,13 +76,13 @@ export default defineNuxtConfig({
     }
   },
   delayHydration: { mode: 'init' },
-  googleFonts: {
-    families: {
-      'Source+Sans+Pro': [400,700],
-      'Overlock':{
-        wght: [700],
-        ital: [700]
-      }
-    }
-  }
+  // googleFonts: {
+  //   families: {
+  //     'Source+Sans+Pro': [400,700],
+  //     'Overlock':{
+  //       wght: [700],
+  //       ital: [700]
+  //     }
+  //   }
+  // }
 })
