@@ -75,7 +75,6 @@ export const useMeetings = () => {
 
             if(!meetingMap[startYear]) meetingMap[startYear] = { index: startYear, months: {}, meetings: [] };
 
-            // consola.warn(meeting)
             meetingMap[startYear].meetings.push(meeting);
             // meetingMap[startYear].meetings = meetingMap[startYear].meetings.sort((a,b)=>a.startMonth-b.startMonth);
         }
