@@ -1,9 +1,28 @@
 <template>
-    <div :class="{'modal-mask':isModal}" class="w-100 text-center   d-flex align-items-start">
-        <div :class="{'modal-container':isModal}" >
-            <NuxtImg src="/img/cbd-gbf-logo.jpeg" format="webp" class="rotate" :width="size" :height="size" />
-            <p  v-if="message" class="fs-3">{{ message }}</p>
-            <p v-if="!message" style="color:white;" class="fs-3">{{t('loading')}}...</p>
+    <div :class="{'modal-mask':isModal}" class="w-100 text-center   d-flex align-items-start ">
+            <div :class="{'modal-container':isModal}" class="d-flex justify-content-center" >
+                <div class="position-relative mt-5" style="width: 13rem; height: 13rem;">
+                    <NuxtImg src="/img/cbd-leaf-green.svg" format="webp" width="57" height="70" class="position-absolute" style="top:45px;left:75px;"/>
+                    <div class="spinner-border text-success my-3" style="width: 8rem; height: 8rem;" role="status">
+                                    
+                        <span class="visually-hidden">Loading</span>
+
+                    </div>
+                    <p  v-if="message" class="fs-3">{{ message }}</p>
+            <div v-if="!message" style="color:white;" class="fs-3">{{t('loading')}}
+                <div class="spinner-grow spinner-grow-sm mx-1" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow spinner-grow-sm mx-1" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow spinner-grow-sm mx-1" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            </div>
+            <!-- <NuxtImg src="/img/cbd-gbf-logo.jpeg" format="webp" class="rotate" :width="size" :height="size" /> -->
+
         </div>
 
         <slot>
