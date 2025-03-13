@@ -8,6 +8,6 @@ const getIsmDocs   = useIsmDocuments();
 const filterTitle  = ref('Created Year');
 
 const filters = (await getFilters()).data;
-const data    = (await getIsmDocs()).data;
+const data    = []//(await getIsmDocs()).data;
 
 </script>
