@@ -22,4 +22,4 @@ ENV NUXT_PORT=8000
 
 
 
-CMD ["node", "--max-http-header-size=32768",".output/server/index.mjs"]
+CMD ["node", ".output/server/index.mjs"]

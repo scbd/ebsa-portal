@@ -51,6 +51,9 @@
         compMap['LazyGmapIsm']  = resolveComponent('LazyGmapIsm');
         compMap['GmapIsm']      = compMap['LazyGmapIsm'];
 
+        compMap['LazyGmapIsmArchive']  = resolveComponent('LazyGmapIsmArchive');
+        compMap['GmapIsmArchive']      = compMap['LazyGmapIsmArchive'];
+
         compMap['LazyGmapIsmDemo']  = resolveComponent('LazyGmapIsmDemo');
         compMap['GmapIsmDemo']      = compMap['LazyGmapIsmDemo'];
 

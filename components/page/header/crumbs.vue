@@ -4,10 +4,10 @@
             <ol class="breadcrumb">
                 <li v-for="(breadcrumb, key) in breadcrumbs" :key='key'>
                     <NuxtLink v-if="!breadcrumb.current" :to="breadcrumb.to">
-                        {{t(breadcrumb.ariaLabel)}}
+                        {{breadcrumb.ariaLabel}}
                     </NuxtLink>
 
-                    <span v-if="breadcrumb.current">{{overRide.ariaLabel || t( current.ariaLabel)}}</span>
+                    <span v-if="breadcrumb.current">{{overRide.ariaLabel || current.ariaLabel}}</span>
                 </li>
             </ol>
         </div>

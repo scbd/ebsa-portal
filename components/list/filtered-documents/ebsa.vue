@@ -10,5 +10,5 @@ const filterTitle = ref('EBSA Regions');
 const filters = (await getRegions()).data;
 const data    = (await getEbsaDocs()).data;
 
-
+consola.success(data.value)
 </script>

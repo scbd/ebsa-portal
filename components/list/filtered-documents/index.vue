@@ -8,13 +8,13 @@
           <button @click="onFiltersClick" class="btn  list-filter w-100 text-wrap" type="button" >
             
             <p >
-              {{t(selectedFilter)}}
+              {{selectedFilterTitle}}
             </p>
             <Icon name="arrow-down" class="float-end" />
           </button>
           <ul v-if="showFilters" v-click-outside="onFiltersClick" class="dropdown-menu menuDates show" role="menu">
-            <li @click="onFilterItemClick(filter.identifier)" v-for="filter in filters" :key="filter.identifier" class="filter-item mb-2 px-3">
-              <span class="filter-item" role="menuitem" tabindex="-1"  >{{t(filter.identifier)}}</span>
+            <li @click="onFilterItemClick(filter)" v-for="filter in filters" :key="filter.identifier" class="filter-item mb-2 px-3">
+              <span class="filter-item" role="menuitem" tabindex="-1"  >{{filter.title}}</span>
 
             </li>
           </ul>
@@ -29,7 +29,7 @@
           <tbody>
             <tr>
               <th colspan="2" >
-                {{t(selectedFilter)}}
+                {{selectedFilterTitle}}
                 <span class="badge bg-info text-dark float-end">{{numberFound}}</span>
               </th>
             </tr>
@@ -64,6 +64,7 @@
   const { t }          = useI18n();
   const showFilters    = ref(false);
   const selectedFilter = ref(passedFilters.value[0].identifier);
+  const selectedFilterTitle = ref(passedFilters.value[0].title);
   const filters        = computed(() => passedFilters.value.filter(filter => filter.identifier !== selectedFilter.value));                         
   const data           = computed(() => passedData.value.filter(item => item[filterProperty.value] === selectedFilter.value));
   const numberFound    = computed(() => data.value.length);
@@ -74,7 +75,8 @@
   }
 
   function onFilterItemClick(filter) {
-    selectedFilter.value = filter;
+    selectedFilter.value      = filter.identifier;
+    selectedFilterTitle.value = filter.title;
     showFilters.value = false;
   }
 

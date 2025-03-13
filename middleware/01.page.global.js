@@ -21,6 +21,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     const { data, status, error, refresh } =  await useFetch(`${cbdApi}/api/v2017/articles`, {  method: 'GET', query, key:key.value, getCachedData, transform }); 
 
+
+   // if(data.value === undefined) throw new Error('useFetch empty');
+
     const title      = computed(()=>  data.value?.title? data.value.title[locale.value] : '');
     const summary      = computed(()=>  data.value?.summary? data.value.summary[locale.value] : '');
     const coverImage = computed(()=>  data.value?.coverImage? data.value.coverImage.url : '');

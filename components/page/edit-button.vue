@@ -1,5 +1,6 @@
 <template>
     <ClientOnly>
+
         <NuxtLink v-if="canEdit" :to="editUri" class="float-end edit pt-1" external>
             <Icon name="edit" /> <span v-if="!hideText">{{t('Edit')}}</span>
         </NuxtLink>

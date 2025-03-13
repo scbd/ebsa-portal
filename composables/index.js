@@ -45,20 +45,19 @@ export const useIsmShapes = () => {
     return ref([])
 }
 export const useEbsaDocuments = () => {
-    const { locale, t }       = useI18n();
+    const { locale, t }     = useI18n();
     const getRegionsRequest = useEbsaRegions()();
-    const { cbdApi }       = useRuntimeConfig().public;
-    const   getCachedData  = useGetCachedData();
-    const   key            = computed(()=>`ebsa-documents`);
-
+    const { cbdApi }        = useRuntimeConfig().public;
+    const   getCachedData   = useGetCachedData();
+    const   key             = computed(()=>`ebsa-documents`);
 
     const query = computed(() => ({
-                            "q"  : "realm_ss:CHM AND schema_s:marineEbsa AND NOT version_s:*",
-                            "fl" : `createdDate_dt,identifier_s,url_ss,region_s,title_t,title_${locale.value.toLocaleUpperCase()}_t,description_${locale.value.toLocaleUpperCase()}_t`,
-                            "sort"  : "updatedDate_dt desc",
-                            "start" : 0,
-                            "rows"  : 999999,
-                        }));
+                                        "q"  : "realm_ss:CHM AND schema_s:marineEbsa AND NOT version_s:*",
+                                        "fl" : `createdDate_dt,identifier_s,url_ss,region_s,title_t,title_${locale.value.toLocaleUpperCase()}_t,description_${locale.value.toLocaleUpperCase()}_t`,
+                                        "sort"  : "updatedDate_dt desc",
+                                        "start" : 0,
+                                        "rows"  : 999999,
+                                    }));
 
 
     return async ()=>{
@@ -85,10 +84,10 @@ export const useEbsaDocuments = () => {
             
             const year = extractFirstFourChars(r.createdDate_dt);
             const url = r.url_ss[0];
-            const title = needsI18n? t(r.identifier_s) : r.title_t;
+            const title = r[`title_${locale.value.toLocaleUpperCase()}_t`] || r.title_t;
             const region = r.region_s;
 
-            newRecords.push({ url, title, region, year });
+            newRecords.push({ url, title, region, year }); 
         }
 
         
@@ -150,7 +149,7 @@ export const useShapes = (isArchive=false) => {
                             "rows"  : 999999,
                         };
     return async ()=>{
-        const { data, status, error, refresh } =  await useFetch(`${cbdApi}/api/v2013/index`, {  method: 'GET', query, key:key.value, getCachedData,transform }); 
+        const { data, status, error, refresh } =  await useFetch(`https://api.cbd.int/api/v2013/index`, {  method: 'GET', query, key:key.value, getCachedData,transform }); 
 
 
         return { data, status, error, refresh };
@@ -172,8 +171,8 @@ export const useShapes = (isArchive=false) => {
                 const i18n = tryI18n(r)
                 if(!r.features?.length) delete r.features;
 
-                r.title_t = r[`title_${locale.value.toLocaleUpperCase()}_t`];
-                r.description_t = r[`description_${locale.value.toLocaleUpperCase()}_t`];
+                r.title_t = r[`title_${locale.value.toUpperCase()}_t`];
+                r.description_t = r[`description_${locale.value.toUpperCase()}_t`];
                 
                 if(r.features?.length)
                 r.features = r.features.map(f => {
@@ -222,7 +221,7 @@ export const useEbsaRegions = () => {
     const   key            = computed(()=>`ebsa-regions`);
 
     return async ()=>{
-        const { data, status, error, refresh } =  await useFetch(`${cbdApi}/api/v2013/thesaurus/domains/0AE91664-5C43-46FB-9959-0744AD1B0E91/terms`, {  method: 'GET', key:key.value, getCachedData, transform }); 
+        const { data, status, error, refresh } =  await useFetch(`https://api.cbd.int/api/v2013/thesaurus/domains/0AE91664-5C43-46FB-9959-0744AD1B0E91/terms`, {  method: 'GET', key:key.value, getCachedData, transform }); 
 
         return { data, status, error, refresh };
     }
@@ -254,7 +253,7 @@ export const useIsmYearFilter = () => {
 
 
     return async ()=>{
-        const { data, status, error, refresh } =  await useFetch(`${cbdApi}/api/v2013/index`, {  method: 'GET', query, key:key.value, getCachedData,transform });
+        const { data, status, error, refresh } =  await useFetch(`https://api.cbd.int/api/v2013/index`, {  method: 'GET', query, key:key.value, getCachedData,transform });
 
         return { data, status, error, refresh };
     }
@@ -285,16 +284,40 @@ export const useCountries = () => {
     }
 
     return { getCountries };
-
+ 
 
     function transform(data){
 
         return data.map(item => {
             return {
                 identifier: item?.code?.toLowerCase(),
-                name: item.name[locale.value]
+                name      : item.name[locale.value]
             }
         }).sort((a,b)=> sortArrayOfObjectsByProp(a,b, 'title', 'asc'));
     }
 }
 
+export function useIsGmapTitleAsPageBody(){
+    const page = useState('page');
+
+
+    const returnContextedFunction = () => {
+        const customProperties = Object.entries(page.value?.customProperties || {});
+        
+        if(!customProperties?.length) return false
+    
+        for (const [key, value] of customProperties)
+            if(key.startsWith('gmapTitleAsPageBody'))
+                return true;
+
+        return false;
+    }
+
+    return computed(returnContextedFunction);
+}
+
+export function useGetPageBody(){
+    const page = useState('page');
+
+    return computed(()=>page.value?.content);
+}

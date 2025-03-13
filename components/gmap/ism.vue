@@ -15,7 +15,7 @@
     const regionMap      = makeRegionMap(regions, shapes);
     const archiveRegionMap = [];
     const archives       = { dataMap: archiveRegionMap };
-    const filterTitle    = 'View Areas Meeting the EBSA Criteria';
+    const filterTitle    = 'EBSA Information-sharing Mechanism Map';
     const filterAllTitle = 'All Regions';
 
 

@@ -66,8 +66,10 @@ export const useTopMenus = (to) => {
     }
     function transform(data){
         return data.map((aMenu)=>{
+
+            const hasRedirect = aMenu.customProperties?.mainMenuRedirect;
             const title = getTitle(aMenu, locale);
-            const path  = getPath(aMenu, pathKey);
+            const path  = hasRedirect? hasRedirect : getPath(aMenu, pathKey);
             const link  = path
             return { _id:aMenu._id, title, path, link};
         });
