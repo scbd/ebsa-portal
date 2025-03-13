@@ -10,7 +10,7 @@
             <br>
             <small class="white">{{t('thisSiteDeveloped')}}</small>
           </div>
-          <div class="col-3">
+          <div class="col-2">
             <div class="push50">&nbsp;</div>
             <div class="push15">&nbsp;</div>
             <img src="/img/icon-pin.png" alt="icon quick links" />
@@ -22,25 +22,25 @@
               <li><a href="about?tab=relevantDecisions">Relevant COP Decisions</a></li>
             </ul>
           </div>
-          <div class="col-3">
+          <div class="col-5">
             <div class="push50">&nbsp;</div>
             <div class="push15">&nbsp;</div>
             <img src="/img/icon-sitemap.png" alt="icon site map" />
             <h2>{{t('Site Map')}}</h2>
             <div class="clear"></div>
-            <div class="text-center">
-              <NuxtLink  to="/"  class="white">{{t('Home')}}</NuxtLink>
+            <div class="text-center mb-3">
+              <NuxtLink  to="/"  class="white flink fw-bold pe-5">{{t('Home')}}</NuxtLink>
             </div>
             <div class="d-flex justify-content-between">
-              <ul>
-                <li  v-for="link of repoLinks"><NuxtLink :to="link.to" class="flink" >{{link.title}}</NuxtLink></li>
+              <ul class="w-50">
+                <li  v-for="link of repoLinks" class="py-1"><NuxtLink :to="link.to" class="flink" >{{link.title}}</NuxtLink></li>
               </ul>
-              <ul>
-                <li  v-for="link of ismLinks"><NuxtLink :to="link.to" class="flink white" >{{link.title}}</NuxtLink></li>
+              <ul class="w-50">
+                <li  v-for="link of ismLinks" class="py-1"><NuxtLink :to="link.to" class="flink white" >{{link.title}}</NuxtLink></li>
               </ul>
             </div>
           </div>
-          <div class="col-3">
+          <div class="col-2 pt-3">
             <div class="push15">&nbsp;</div>
             <img src="/img/icon-contact.png" alt="icon contact" />
             <h2>{{t('Contact')}}</h2>
@@ -70,6 +70,14 @@
 <script setup>
 const { t }  = useI18n();
 const localePath  = useLocalePath();
+const getRepo = useTopMenus  ({path:'/repository'});
+const getIsms = useTopMenus  ({path:'/ism'});
+
+
+const { data:menus } = await getRepo();
+
+const { data:ismMenus  } = await getIsms();
+
 const legalLinks = [
     { title: t('Terms of Use'),      to: 'https://www.cbd.int/terms',    target: "_blank", external:true },
     { title: t('Privacy Policy'),    to: 'https://www.cbd.int/privacy',   target: "_blank", external:true },
@@ -77,22 +85,19 @@ const legalLinks = [
     { title: t('© CBD Secretariat'), to: 'https://www.cbd.int/copyright', target: "_blank", external:true }
   ]
 
-const repoLinks = [
-  { title: t('Repository'), to: localePath('/repository') },
-  { title: t('About'),      to: localePath('/repository/about') },
-  { title: t('EBSAS'),      to: localePath('/repository/ebsas') },
-  { title: t('Archive'),      to: localePath('/repository/archive') },
-];
+const repoLinks = computed(()=>(menus.value?.map(mapMenu))?.filter(menu=>menu.to?.startsWith('/repository')));
 
-const ismLinks = [
-  { title: t('ISM'), to: localePath('/ism') },
-  { title: t('ISMS'),      to: localePath('/ism/isms') },
-  { title: t('Meetings'),      to: localePath('/ism/meetings') },
-  { title: t('Resources'),      to: localePath('/ism/resources') },
-  { title: t('Collaborators'),      to: localePath('/ism/collaborators') }
+const ismLinks = computed(()=>(ismMenus.value?.map(mapMenu))?.filter(menu=>menu.to?.startsWith('/ism')));
 
-  
-];
+
+function mapMenu(menu){
+  return {
+    title: menu.title,
+    to: localePath(menu.path),
+    external: menu.external,
+    target: menu.target
+  }
+}
 </script>
 <style scoped>
   .copyright{
@@ -105,6 +110,7 @@ const ismLinks = [
   .flink{
     text-decoration: none;
     color: #fff;
+    
   }
   .flink:hover{
     text-decoration: underline;
