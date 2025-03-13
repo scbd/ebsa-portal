@@ -51,6 +51,9 @@
         compMap['LazyGmapIsm']  = resolveComponent('LazyGmapIsm');
         compMap['GmapIsm']      = compMap['LazyGmapIsm'];
 
+        compMap['LazyGmapIsmArchive']  = resolveComponent('LazyGmapIsmArchive');
+        compMap['GmapIsmArchive']      = compMap['LazyGmapIsmArchive'];
+
         compMap['LazyGmapIsmDemo']  = resolveComponent('LazyGmapIsmDemo');
         compMap['GmapIsmDemo']      = compMap['LazyGmapIsmDemo'];
 
@@ -80,16 +83,5 @@
     }
 
 
-//     function getComponents(){
-//         const customProperties = page.value?.customProperties || {};
-// consola.warn('customProperties', customProperties)
-//         const componentNames = []
-//         forof (const [key, value] of Object.entries(customProperties)){
-//             if(key.startsWith('componentBelow'))
-//                 return componentNames.push(resolveComponent(value));
 
-//         }
-
-//         return componentNames.reverse();
-//     }
 </script>

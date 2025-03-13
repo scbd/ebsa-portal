@@ -85,10 +85,10 @@ export const useEbsaDocuments = () => {
             
             const year = extractFirstFourChars(r.createdDate_dt);
             const url = r.url_ss[0];
-            const title = needsI18n? t(r.identifier_s) : r.title_t;
+            const title = r[`title_${locale.value.toLocaleUpperCase()}_t`] || r.title_t;
             const region = r.region_s;
 
-            newRecords.push({ url, title, region, year });
+            newRecords.push({ url, title, region, year }); 
         }
 
         
@@ -172,8 +172,8 @@ export const useShapes = (isArchive=false) => {
                 const i18n = tryI18n(r)
                 if(!r.features?.length) delete r.features;
 
-                r.title_t = r[`title_${locale.value.toLocaleUpperCase()}_t`];
-                r.description_t = r[`description_${locale.value.toLocaleUpperCase()}_t`];
+                r.title_t = r[`title_${locale.value.toUpperCase()}_t`];
+                r.description_t = r[`description_${locale.value.toUpperCase()}_t`];
                 
                 if(r.features?.length)
                 r.features = r.features.map(f => {
@@ -298,3 +298,27 @@ export const useCountries = () => {
     }
 }
 
+export function useIsGmapTitleAsPageBody(){
+    const page = useState('page');
+
+
+    const returnContextedFunction = () => {
+        const customProperties = Object.entries(page.value?.customProperties || {});
+        
+        if(!customProperties?.length) return false
+    
+        for (const [key, value] of customProperties)
+            if(key.startsWith('gmapTitleAsPageBody'))
+                return true;
+
+        return false;
+    }
+
+    return computed(returnContextedFunction);
+}
+
+export function useGetPageBody(){
+    const page = useState('page');
+
+    return computed(()=>page.value?.content);
+}

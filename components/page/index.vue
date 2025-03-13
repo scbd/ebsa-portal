@@ -3,9 +3,10 @@
         <PageSideMenu v-if="hasSideMenu" :menus="data"/>
 
         <div class="px-0" :class="{'col-12': !hasSideMenu, 'col-9': hasSideMenu}">
+
             <PageComponentAbove/>
             <PageEditButton :_id="_id" />
-            <div class="ck-content px-0">
+            <div v-show="!isGmapTitleAsPageBody" class="ck-content px-0">
                 <div ref="contentEl" v-html="content"></div>
             </div>
             <PageComponentBelow/>
@@ -15,25 +16,30 @@
 
 <script setup>
 
+
+
 const {  hasParent  } = useParentPath (); 
 const localizeRecord = useLocalizeRecord ();
 const page = useState('page');
-const url = useRequestURL();
 const { locale, t }       = useI18n();
 const   route          = useRoute();
 const   getCachedData  = useGetCachedData();
 const { cbdApi, oasisApi }       = useRuntimeConfig().public;
 const { isThirdLevel } = useMenuLevels();
 const contentEl = ref();
-const _id              = computed(()=>page.value?._id);
-const content          = computed(()=>page.value?.content);
 
-const parentPathSearch          = computed(()=>getParentPath(route.path));
+const _id                   = computed(()=>page.value?._id);
+const isGmapTitleAsPageBody = useIsGmapTitleAsPageBody();
+const content               = computed(()=>page.value?.content);
+
+
+const parentPathSearch = computed(()=>getParentPath(route.path));
 const key              = computed(()=>`page-side-menu-${route.path}-${locale.value}`);
 const redirectTo       = computed(()=>page.value?.customProperties?.redirectTo);
 
 
 onMounted(()=>preProcessOEmbed());
+
 const query = computed(() => {
     const $match   = { "adminTags" : { $all: ['ebsa-portal', `${parentPathSearch.value}`], $size:4 }};
     const $project = { title:1, adminTags:1, customProperties:1 };

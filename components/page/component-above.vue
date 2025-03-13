@@ -61,6 +61,10 @@
         compMap['ListMeetingsFuture']      = compMap['LazyListMeetingsFuture'];
 
 
+        compMap['LazyGmapIsmArchive']  = resolveComponent('LazyGmapIsmArchive');
+        compMap['GmapIsmArchive']      = compMap['LazyGmapIsmArchive'];
+
+        
         compMap['LazyListMeetingsWidget']  = resolveComponent('LazyListMeetingsWidget');
         compMap['ListMeetingsWidget']      = compMap['LazyListMeetingsWidget'];
 
