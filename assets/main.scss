@@ -803,21 +803,17 @@ Button styles */
   border: none;
   color: #fff;
 }
-.btn {
-  padding: 3px 6px;
-  font-size: 12px;
-  border-radius: 0px;
-}
+
 
 /* *
 FOOTER */
 footer {
   box-sizing: border-box;
   margin-top: 50px;
-  padding-top: 180px;
+  padding-bottom: 1rem;
+  padding-top: 14rem;
   background: url($img-path + "/bg-footer-opt.jpg") no-repeat center top;
   background-size: cover;
-  height: 420px;
 }
 footer div.row {
   font-size: 12px;
