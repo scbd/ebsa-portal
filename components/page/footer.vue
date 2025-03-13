@@ -85,26 +85,10 @@ const legalLinks = [
     { title: t('© CBD Secretariat'), to: 'https://www.cbd.int/copyright', target: "_blank", external:true }
   ]
 
-const repoLinks = computed(()=>(menus.value?.map(mapMenu))?.filter(menu=>menu.to?.startsWith('/repository')));//.filter(menu=>menu.path.startsWith('/repository')
-
-consola.warn(repoLinks.value);
-// [
-//   { title: t('Repository'), to: localePath('/repository') },
-//   { title: t('About'),      to: localePath('/repository/about') },
-//   { title: t('EBSAS'),      to: localePath('/repository/ebsas') },
-//   { title: t('Archive'),      to: localePath('/repository/archive') },
-// ];
+const repoLinks = computed(()=>(menus.value?.map(mapMenu))?.filter(menu=>menu.to?.startsWith('/repository')));
 
 const ismLinks = computed(()=>(ismMenus.value?.map(mapMenu))?.filter(menu=>menu.to?.startsWith('/ism')));
-// [
-//   { title: t('ISM'), to: localePath('/ism') },
-//   { title: t('ISMS'),      to: localePath('/ism/isms') },
-//   { title: t('Meetings'),      to: localePath('/ism/meetings') },
-//   { title: t('Resources'),      to: localePath('/ism/resources') },
-//   { title: t('Collaborators'),      to: localePath('/ism/collaborators') }
 
-  
-// ];
 
 function mapMenu(menu){
   return {

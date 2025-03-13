@@ -63,19 +63,21 @@
 
   const { t }          = useI18n();
   const showFilters    = ref(false);
-  const selectedFilter = ref(passedFilters.value[0].identifier);
+  const selectedFilter = ref(passedFilters.value[0]);
   const selectedFilterTitle = ref(passedFilters.value[0].title);
-  const filters        = computed(() => passedFilters.value.filter(filter => filter.identifier !== selectedFilter.value));                         
-  const data           = computed(() => passedData.value.filter(item => item[filterProperty.value] === selectedFilter.value));
+  const isArray = computed(() => Array.isArray(selectedFilter.value?.identifier));
+  const filters        = computed(() => passedFilters.value.filter(filter => filter.title !== selectedFilter.value?.title));                         
+  const data           = computed(() => passedData.value.filter(item => isArray.value? selectedFilter.value?.identifier?.includes(item[filterProperty.value]) : selectedFilter.value?.identifier === item[filterProperty.value]));
   const numberFound    = computed(() => data.value.length);
   
 
   function onFiltersClick() {
+
     showFilters.value = !showFilters.value;
   }
 
   function onFilterItemClick(filter) {
-    selectedFilter.value      = filter.identifier;
+    selectedFilter.value      = filter;
     selectedFilterTitle.value = filter.title;
     showFilters.value = false;
   }

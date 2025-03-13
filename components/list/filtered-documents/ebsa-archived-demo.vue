@@ -1,15 +1,14 @@
 <template>
         <ClientOnly>
-            <LazyListFilteredDocuments :data="data" :filters="filters" :filter-title="filterTitle" />
+            <LazyListFilteredDocuments :data="data" :filters="filters" />
         </ClientOnly>
 </template>
 
 <script setup>
-const getRegions  = useEbsaRegions();
+const getCops     = useEbsaCops();
 const getEbsaDocs = useEbsaDocuments();
-const filterTitle = ref('EBSA Regions');
 
-const filters     = (await getRegions()).data;
+const filters     = (await getCops());
 const rawData     = (await getEbsaDocs()).data.value;
 const data        = sampleMultiple(rawData);
 
