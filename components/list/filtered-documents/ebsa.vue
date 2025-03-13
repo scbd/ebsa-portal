@@ -1,14 +1,17 @@
 <template>
-    <LazyListFilteredDocuments :data="data" :filters="filters" :filterTitle="filterTitle" />
+    <LazyListFilteredDocuments v-if="filters.length && filters2.length  " :data="data" :filters="filters" :filters2="filters2" />
 </template>
 
 <script setup>
-const getRegions  = useEbsaRegions();
+
+const getRegions = useEbsaRegions();
+const getCops  = useEbsaCops();
 const getEbsaDocs = useEbsaDocuments();
-const filterTitle = ref('EBSA Regions');
 
-const filters = (await getRegions()).data;
-const data    = (await getEbsaDocs()).data;
 
+const filters  = (await getCops());
+const filters2 = (await getRegions()).data;
+
+const data     = (await getEbsaDocs()).data;
 
 </script>
