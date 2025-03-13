@@ -9,6 +9,7 @@ export default defineNuxtConfig({
   app: {
     baseURL: '/ebsa',
     head: {
+      title: 'EBSA - Ecologically or Biologically Significant Marine Areas',
       link: [{ rel: 'stylesheet', href: 'fonts.googleapis.com/css?family=Overlock:700italic' },{ rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Overlock:700' }],
     }
   },
