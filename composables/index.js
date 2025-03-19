@@ -237,6 +237,19 @@ export const useEbsaRegions = () => {
     }
 }
 
+export const useEbsaCops = () => {
+    const cops = [
+        { index: 0, title: t('cop-15-long'), identifier : ['21B2B800-3F1C-4751-B054-A7430370ACFF']},
+        {  index: 1, title: t('cop-14-long'), identifier : ['4B547476-0A24-4CED-9A35-B4EE9C53EA31','550938E7-3A09-436C-9A39-CD54277BDDDC']},
+        {  index: 2, title: t('cop-13-long'), identifier : ['A2AFD051-BE56-4EB6-880B-204A647C876E','D9AE82B7-6033-4EBE-9A7D-88A115AEF6FE','C540FD85-87E1-4CAC-A37B-27A252A02012']},
+        {  index: 3, title: t('cop-12-long'), identifier : ['800F52F9-E7A7-47F2-94E4-EA34F60A13A1', '41778E79-EC55-4717-B500-165999F07D74', '81893F06-7D2D-43FE-B13B-098C335C9A3B', '16EA9FE2-323D-40EB-ACF0-EEB3C164F107','48C4C187-A6A6-4F36-9024-DE73E2BB0721','3CD91D7F-785A-4F87-BD8C-8CC7B837DE59','B23DF27C-4E0C-481F-90DE-0120B095AB29']},
+        {  index: 4, title: t('cop-11-long'), identifier :['CA3259CC-2FA6-4E8C-8560-967DB05C5D48','B58E1174-BA60-481A-83EA-CD0310DCFCFD']},
+    ];
+
+    return async ()=>cops.sort((a,b)=> sortArrayOfObjectsByProp(a,b, 'index', 'desc'));
+}
+
+
 export const useIsmYearFilter = () => {
     const { cbdApi }       = useRuntimeConfig().public;
     const   getCachedData  = useGetCachedData();
