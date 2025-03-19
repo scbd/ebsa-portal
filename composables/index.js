@@ -45,20 +45,19 @@ export const useIsmShapes = () => {
     return ref([])
 }
 export const useEbsaDocuments = () => {
-    const { locale, t }       = useI18n();
+    const { locale, t }     = useI18n();
     const getRegionsRequest = useEbsaRegions()();
-    const { cbdApi }       = useRuntimeConfig().public;
-    const   getCachedData  = useGetCachedData();
-    const   key            = computed(()=>`ebsa-documents`);
-
+    const { cbdApi }        = useRuntimeConfig().public;
+    const   getCachedData   = useGetCachedData();
+    const   key             = computed(()=>`ebsa-documents`);
 
     const query = computed(() => ({
-                            "q"  : "realm_ss:CHM AND schema_s:marineEbsa AND NOT version_s:*",
-                            "fl" : `createdDate_dt,identifier_s,url_ss,region_s,title_t,title_${locale.value.toLocaleUpperCase()}_t,description_${locale.value.toLocaleUpperCase()}_t`,
-                            "sort"  : "updatedDate_dt desc",
-                            "start" : 0,
-                            "rows"  : 999999,
-                        }));
+                                        "q"  : "realm_ss:CHM AND schema_s:marineEbsa AND NOT version_s:*",
+                                        "fl" : `createdDate_dt,identifier_s,url_ss,region_s,title_t,title_${locale.value.toLocaleUpperCase()}_t,description_${locale.value.toLocaleUpperCase()}_t`,
+                                        "sort"  : "updatedDate_dt desc",
+                                        "start" : 0,
+                                        "rows"  : 999999,
+                                    }));
 
 
     return async ()=>{
@@ -285,14 +284,14 @@ export const useCountries = () => {
     }
 
     return { getCountries };
-
+ 
 
     function transform(data){
 
         return data.map(item => {
             return {
                 identifier: item?.code?.toLowerCase(),
-                name: item.name[locale.value]
+                name      : item.name[locale.value]
             }
         }).sort((a,b)=> sortArrayOfObjectsByProp(a,b, 'title', 'asc'));
     }
