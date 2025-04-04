@@ -30,7 +30,7 @@
     "nuxt-viewport": "2.2.0",
     "path-normalize": "6.0.13",
     "typescript": "5.7.3",
-    "vite": "6.2.1",
+    "vite": "6.2.5",
     "vue": "latest",
     "vue-final-modal": "4.5.5",
     "vue-multiselect": "3.2.0",
