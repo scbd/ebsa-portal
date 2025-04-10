@@ -3,11 +3,15 @@
     <ClientOnly>
       <div ref="googleCont" class="row">
         <div  v-if="hasFilters" class="col-2 regions">
-          <h3 class="my-2">{{t(filterTitle)}}</h3>
+          <h3 class="my-2">{{title}}</h3>
           <div @click="selectFilter('all')" class="region selected">{{t(filterAllTitle)}}</div>
-          <div @click="selectFilter(filter.identifier)" v-for="filter of filters" class="region">{{t(filter.identifier)}}</div>
+          <div @click="selectFilter(filter)" v-for="filter of filters" class="region">{{filter.title}}</div>
         </div>
         <div class="px-0 position-relative" :class="{ 'col-10': hasFilters, 'col-12': !hasFilters }">
+          <div v-if="(!hasFilters && title) || isGmapTitleAsPageBody" class="regions  py-2 px-4">
+            <h3 v-if="(!hasFilters && title)" class="my-2">{{title}}</h3>
+            <div v-if="isGmapTitleAsPageBody" v-html="content" class="my-2"></div>
+          </div>
           <Spinner v-if="!isLoaded" :size="300" :is-modal="true"/>
             <ScriptGoogleMaps 
             ref="maps"
@@ -37,20 +41,23 @@
                                 data           : { type: Array  },
                                 dataMap        : { type: Object  },
                                 filters        : { type: Array  },
-                                filterTitle    : { type: String },
+                                title          : { type: String },
                                 filterAllTitle : { type: String, default: 'All' },
                                 color          : { type: String, default: 'white' },
                                 archives       : { type: Object  },
                             });
 
-const { data, dataMap, filters, color, filterTitle, filterAllTitle, archives } = toRefs(props);
+const { data, dataMap, filters, color, title, filterAllTitle, archives } = toRefs(props);
 
-  const hasArchives = computed(() => archives.value); 
-  const showArchives = ref(false);
-  const hasFilters = computed(() => filters.value?.length > 0);
-  const { t }      = useI18n();
-  const googleCont = ref();
-  const maps       = ref();
+  const isGmapTitleAsPageBody = useIsGmapTitleAsPageBody();
+  
+  const content       = useGetPageBody();
+  const hasArchives   = computed(() => archives.value); 
+  const showArchives  = ref(false);
+  const hasFilters    = computed(() => filters.value?.length > 0);
+  const { t }         = useI18n();
+  const googleCont    = ref();
+  const maps          = ref();
 
   const isLoaded       = ref(false);
   const infoWindow     = ref();
@@ -80,7 +87,6 @@ function handleReady({ map, googleMaps }) {
   googleMapsApi.value = googleMaps.value;
   mainMap.value       = map.value;
 
-  addArchiveControl(mainMap);
 
   applyStyles(mainMap);
 
@@ -152,10 +158,9 @@ function displayArchiveData(map, filterId = 'all') {
 
 function setInfoWindow(event) {
     const record  = event.feature.getProperty('__record');
-    const tryI18n = record.tryI18n;
-    const title   = tryI18n ? t(record.identifier) : record.title;
-    const summary = (tryI18n ? t(`${record.identifier}-DESC`) : record.description).replace(/\r\n|\r|\n/g, '<br />');
-    const region  = record?.region? `<em class="badge bg-info">${t(record?.region?.identifier)}</em>` : '';
+    const title   = record.title;
+    const summary = (record.description).replace(/\r\n|\r|\n/g, '<br />');
+    const region  = record?.region? `<em class="badge bg-info">${t(record?.region?.title)}</em>` : '';
     const archive = record?.archive? `<span class="badge bg-danger">${t('Archived')}</span>` : '';
     const content =
         `<div id="infoBox" class="scrollFix">
