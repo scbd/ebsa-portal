@@ -1,7 +1,19 @@
 
 <template>
+<<<<<<< HEAD
 <div class="w-100 h-100">
   <div class="center">
+=======
+<div class="w-100 h-100 d-flex flex-column  align-items-center justify-content-between">
+  <div class="position-absolute  top-0 w-75 mt-3  text-white">
+   
+      <div class="ck-content  p-3 text-white">
+                <div ref="contentEl" class="cont" v-html="htmlSanitize(content)"></div>
+      </div>
+                        
+  </div>
+  <div class="center ">
+>>>>>>> c720868 (DEV-618 html sanitize)
     <div class="d-flex justify-content-between">
 
       <NuxtLink to="/repository" class="text-decoration-none">

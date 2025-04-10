@@ -6,7 +6,7 @@
             <PageComponentAbove/>
             <PageEditButton :_id="_id" />
             <div class="ck-content px-0">
-                <div ref="contentEl" v-html="content"></div>
+                <div ref="contentEl" v-html="htmlSanitize(content)"></div>
             </div>
             <PageComponentBelow/>
         </div>
