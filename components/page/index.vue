@@ -5,6 +5,7 @@
         <div class="px-0" :class="{'col-12': !hasSideMenu, 'col-9': hasSideMenu}">
             <PageComponentAbove/>
             <PageEditButton :_id="_id" />
+
             <div v-show="!isGmapTitleAsPageBody" class="ck-content px-0">
                 <div ref="contentEl" v-html="htmlSanitize(content)"></div>
             </div>
