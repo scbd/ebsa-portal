@@ -20,6 +20,7 @@
     "@scbd/ckeditor5-build-inline-full": "35.0.0",
     "@vueuse/core": "13.0.0",
     "bootstrap": "5.3.3",
+    "isomorphic-dompurify": "2.23.0",
     "click-outside-vue3": "4.0.1",
     "lodash.clonedeep": "4.5.0",
     "luxon": "3.5.0",
