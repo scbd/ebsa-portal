@@ -310,3 +310,27 @@ export const useCountries = () => {
     }
 }
 
+export function useIsGmapTitleAsPageBody(){
+    const page = useState('page');
+
+
+    const returnContextedFunction = () => {
+        const customProperties = Object.entries(page.value?.customProperties || {});
+        
+        if(!customProperties?.length) return false
+    
+        for (const [key, value] of customProperties)
+            if(key.startsWith('gmapTitleAsPageBody'))
+                return true;
+
+        return false;
+    }
+
+    return computed(returnContextedFunction);
+}
+
+export function useGetPageBody(){
+    const page = useState('page');
+
+    return computed(()=>page.value?.content);
+}
