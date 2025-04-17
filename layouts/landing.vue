@@ -9,6 +9,7 @@
           <slot/>
         </div>
       </div>
+    <LazyPageFooter/>
 </template>
 
 <style lang="scss" scoped>
