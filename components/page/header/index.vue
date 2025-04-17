@@ -18,7 +18,7 @@
                   </div>
 
                   <div class="col-2 ">
-                    <PageHeaderLocaleSelect class="float-end" />
+                    <!-- <PageHeaderLocaleSelect class="float-end" /> -->
                     <PageHeaderAccount class="float-end" />
                 
                   </div>
