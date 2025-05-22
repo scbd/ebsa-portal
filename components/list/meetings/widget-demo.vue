@@ -2,13 +2,13 @@
     <div class="row">
         <div v-if="future.meetings.length"  :class="{'col-12':!past.meetings.length, 'col-6':past.meetings.length}"> 
             <table class="ebsa-table table table-striped">
-                <tr>
+                <thead>
                     <th><img src="/img/icon-home.png" alt="meeting icon" /> {{t('Upcoming Meetings')}}</th>
                     <th>
                     <div class="push5"></div><div class="push5"></div>
                     <!-- <a class="important blue4 float-end" href="#">{{t('More')}} »</a> -->
                     </th>
-                </tr>
+                </thead>
 
                 <tr v-if="!future.meetings.length">
                     <td colspan="2">{{t('No meetings')}}...</td>
@@ -25,13 +25,13 @@
         </div>
         <div v-if="past.meetings.length"  :class="{'col-12':!future.meetings.length, 'col-6':future.meetings.length}">
             <table class="ebsa-table table table-striped">
-                <tr>
+                <thead>
                     <th><img src="/img/icon-home.png" alt="meeting icon" />  {{t('Previous Meetings')}}</th>
                     <th>
                     <div class="push5"></div><div class="push5"></div>
                     <!-- <a class="important blue4 float-end" href="#">{{t('More')}} »</a> -->
                     </th>
-                </tr>
+                </thead>
 
                 <tr v-if="!past.meetings.length">
                     <td colspan="2">{{t('No meetings')}}...</td>

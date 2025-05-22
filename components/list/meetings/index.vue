@@ -31,11 +31,11 @@
           <Spinner v-if="loading" :size="300" :is-modal="true"/>
           <LazyListPager v-if="data.meetingsMap.length" :options="pager" class="float-end"/>
           <table v-if="!data.meetingsMap.length" class="table meeting-table mb-5 " >
-            <tr>
+            <thead>
               <th>{{ t('Date and Venue') }}</th>
               <th>{{t('Event')}}</th>
               <th class="right"></th>
-            </tr>
+            </thead>
 
             <tr >
               <td colspan="3">{{t('No meetings found')}}...</td>
@@ -43,11 +43,11 @@
           </table>
 
           <table class="table meeting-table mb-5 " v-for="[yearKey, year] in data.meetingsMap">
-            <tr>
+            <thead>
               <th>{{ t('Date and Venue') }}</th>
               <th>{{t('Event')}}</th>
               <th class="right">{{yearKey}}</th>
-            </tr>
+            </thead>
 
             <tr v-if="year.months.length === 0">
               <td colspan="3">{{t('No meetings found')}}...</td>
@@ -106,6 +106,7 @@ const { type }    = toRefs(props);
 
 const { t, locale }       = useI18n();
 const   page              = ref(0); 
+const   perPage           = ref(10);
 const   getMeetings       = useMeetings();
 const   getMeetingFilters = useMeetingFilters();
 const   selectedYear      = ref();
@@ -114,10 +115,10 @@ const   eventBus          = useEventBus();
 
 
 const { data: filters }           = (await getMeetingFilters());
-const { data, status, refresh }   = (await getMeetings(page, selectedCountry, selectedYear, type));// { future: true} 
+const { data, status, refresh }   = (await getMeetings(page, perPage, selectedCountry, selectedYear, type));// { future: true} 
 
 const total   = computed(()=>data.value.total)
-const pager   = ref({ total: total.value, page: page .value, perPage: 5 });
+const pager   = ref({ total: total.value, page: page .value, perPage:perPage.value });
 const loading = ref(false);
 
 watch(status,()=>{
@@ -127,7 +128,7 @@ watch(status,()=>{
 })
 eventBus.on('goToPage', async (p) => {
   page.value  = p;
-  pager.value = { total: total.value, page: page.value, perPage: 5 };
+  pager.value = { total: total.value, page: page.value, perPage:perPage.value };
 });
 
 </script>
