@@ -31,64 +31,70 @@
           <Spinner v-if="loading" :size="300" :is-modal="true"/>
           <LazyListPager v-if="data.meetingsMap.length" :options="pager" class="float-end"/>
           <table v-if="!data.meetingsMap.length" class="table meeting-table mb-5 " >
-            <tr>
-              <th>{{ t('Date and Venue') }}</th>
-              <th>{{t('Event')}}</th>
-              <th class="right"></th>
-            </tr>
-
-            <tr >
-              <td colspan="3">{{t('No meetings found')}}...</td>
-            </tr>
+            <thead>
+              <tr>
+                <th>{{ t('Date and Venue') }}</th>
+                <th>{{t('Event')}}</th>
+                <th class="right"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr >
+                <td colspan="3">{{t('No meetings found')}}...</td>
+              </tr>
+            </tbody>
           </table>
 
           <table class="table meeting-table mb-5 " v-for="[yearKey, year] in data.meetingsMap">
-            <tr>
-              <th>{{ t('Date and Venue') }}</th>
-              <th>{{t('Event')}}</th>
-              <th class="right">{{yearKey}}</th>
-            </tr>
-
-            <tr v-if="year.months.length === 0">
-              <td colspan="3">{{t('No meetings found')}}...</td>
-            </tr>
-
-            <template v-for="[monthKey, month] in year.months">
-              <tr class="month" >
-                <td colspan="3">
-                  <p class="important">{{getLocalizedMonth(monthKey,{ locale, length:'long'})}}</p>
-                </td>
+            <thead>
+              <tr>
+                <th>{{ t('Date and Venue') }}</th>
+                <th>{{t('Event')}}</th>
+                <th class="right">{{yearKey}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-if="year.months.length === 0">
+                <td colspan="3">{{t('No meetings found')}}...</td>
               </tr>
 
-              <tr class="event" >
-                <td colspan="3" class="meeting-list" >
-                  <div v-for="meeting in month.meetings" class="d-inline-flex justify-content-between w-100 p-0">
-                    <div class="meeting-row-one p-1">
-                      <p>
-                          <span class="text-nowrap">
-                            {{meeting.startDay}} {{getLocalizedMonth(meeting.startMonth,{ locale })}} -
-                            {{meeting.endDay}} {{getLocalizedMonth(meeting.endMonth,{ locale })}}
-                          </span>
-                          <br />
+              <template v-for="[monthKey, month] in year.months">
+                <tr class="month" >
+                  <td colspan="3">
+                    <p class="important">{{getLocalizedMonth(monthKey,{ locale, length:'long'})}}</p>
+                  </td>
+                </tr>
 
-                          <span class="text-nowrap">
-                            {{meeting.city}}, {{meeting.country}} 
-                          </span>
-                          <br>
-                          {{meeting.startYear}}
-                        </p>
-                    </div>
-                    <div class="meeting-row-two p-1">
-                      <h4>{{meeting.title}}</h4>
-                    </div>
-                    <div class="meeting-row-three p-1 ">
-                      <a v-if="meeting.documentsUrl" :href="meeting.documentsUrl" target="_blank" class="text-nowrap pull-right doc-url">{{t('Documents')}} »</a>
-                    </div>
-                  </div>
+                <tr class="event" >
+                  <td colspan="3" class="meeting-list" >
+                    <div v-for="meeting in month.meetings" class="d-inline-flex justify-content-between w-100 p-0">
+                      <div class="meeting-row-one p-1">
+                        <p>
+                            <span class="text-nowrap">
+                              {{meeting.startDay}} {{getLocalizedMonth(meeting.startMonth,{ locale })}} -
+                              {{meeting.endDay}} {{getLocalizedMonth(meeting.endMonth,{ locale })}}
+                            </span>
+                            <br />
 
-                </td>
-              </tr>
-            </template>
+                            <span class="text-nowrap">
+                              {{meeting.city}}, {{meeting.country}} 
+                            </span>
+                            <br>
+                            {{meeting.startYear}}
+                          </p>
+                      </div>
+                      <div class="meeting-row-two p-1">
+                        <h4>{{meeting.title}}</h4>
+                      </div>
+                      <div class="meeting-row-three p-1 ">
+                        <a v-if="meeting.documentsUrl" :href="meeting.documentsUrl" target="_blank" class="text-nowrap pull-right doc-url">{{t('Documents')}} »</a>
+                      </div>
+                    </div>
+
+                  </td>
+                </tr>
+              </template>
+            </tbody>
           </table>
         </div>
 
@@ -106,6 +112,7 @@ const { type }    = toRefs(props);
 
 const { t, locale }       = useI18n();
 const   page              = ref(0); 
+const   perPage           = ref(10);
 const   getMeetings       = useMeetings();
 const   getMeetingFilters = useMeetingFilters();
 const   selectedYear      = ref();
@@ -114,10 +121,10 @@ const   eventBus          = useEventBus();
 
 
 const { data: filters }           = (await getMeetingFilters());
-const { data, status, refresh }   = (await getMeetings(page, selectedCountry, selectedYear, type));// { future: true} 
+const { data, status, refresh }   = (await getMeetings(page, perPage, selectedCountry, selectedYear, type));// { future: true} 
 
 const total   = computed(()=>data.value.total)
-const pager   = ref({ total: total.value, page: page .value, perPage: 5 });
+const pager   = ref({ total: total.value, page: page .value, perPage:perPage.value });
 const loading = ref(false);
 
 watch(status,()=>{
@@ -127,7 +134,7 @@ watch(status,()=>{
 })
 eventBus.on('goToPage', async (p) => {
   page.value  = p;
-  pager.value = { total: total.value, page: page.value, perPage: 5 };
+  pager.value = { total: total.value, page: page.value, perPage:perPage.value };
 });
 
 </script>
