@@ -8,7 +8,7 @@ export const useMeetings = () => {
     const   getCachedData  = useGetCachedData();
     // const  allCountries   =  ref([]);
 
-    return async (start=0, country, year, options)=>{
+    return async (start=0, perPage=25, country, year, options)=>{
         // allCountries.value = await getCountries();
 
         const   key  = computed(()  =>`ebsa-meetings-${unref(start)}-${locale.value}-${options?.value}`);
@@ -23,8 +23,9 @@ export const useMeetings = () => {
                                         q       : `realm_ss:CHM AND schema_s:meeting AND symbol_s:*EBSA*${yearQ}${countryQ} AND NOT version_s:*`,
                                         fl      : `symbol_s,title_t, title_${locale.value.toLocaleUpperCase()}_t, eventCity_t, eventCity_${locale.value.toLocaleUpperCase()}_t, eventCountry_s, eventCountry_t, eventCountry_${locale.value.toLocaleUpperCase()}_s, status_s, startDate_dt, endDate_dt, identifier_s, url_ss,  description_t, description_${locale.value.toLocaleUpperCase()}_t,eventCity_${locale.value.toLocaleUpperCase()}_t`,
                                         "sort"  : "startDate_dt desc",
-                                        "start" : start.value,
-                                        "rows"  : 5
+                                        "start" : unref(start)?unref(start)*unref(perPage):0,
+                                        "rows"  : unref(perPage)
+                                    
                                     })});
 
         const { data, status, error, refresh } =  await useFetch(`${cbdApi}/api/v2013/index`, {  method: 'GET', query, key:key.value, getCachedData, transform }); 
