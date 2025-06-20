@@ -61,6 +61,29 @@ export const useTopMenus = (to) => {
     return async ()=>{
         const { data, status, error, refresh } =  await useFetch(`${cbdApi}/api/v2017/articles`, {  method: 'GET', query, key:key.value, getCachedData, transform }); //key: 'hero-image', getCachedData
 
+        // Debug logging for useFetch issues
+        if (error.value) {
+            console.error('[useTopMenus] useFetch error:', {
+                error: error.value,
+                status: status.value,
+                url: `${cbdApi}/api/v2017/articles`,
+                query: query.value,
+                key: key.value,
+                pathKey: pathKey.value
+            });
+        }
+
+        if (!data.value || data.value.length === 0) {
+            console.error('[useTopMenus] useFetch returned no data:', {
+                data: data.value,
+                status: status.value,
+                url: `${cbdApi}/api/v2017/articles`,
+                query: query.value,
+                key: key.value,
+                pathKey: pathKey.value
+            });
+        }
+
         // const menus = cleanMenus(data.value, locale, pathKey);
         return { data, status, error, refresh, pathKey };
     }
