@@ -72,9 +72,9 @@ export default defineNuxtConfig({
         },
       },
     },
-    server: {
-      hmr: { protocol: 'ws', host: 'localhost', clientPort: 3000 }
-    }
+    // server: {
+    //   hmr: { protocol: 'ws', host: 'localhost', clientPort: 3000 }
+    // }
   },
   delayHydration: { mode: 'init' },
   // googleFonts: {
