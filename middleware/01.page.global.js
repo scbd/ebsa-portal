@@ -5,6 +5,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const { cbdApi }       = useRuntimeConfig().public;
     const   path           = computed(()=> to?.path );
 
+    await skipPath();
     const   locale         = nuxtApp.$i18n.locale;
     const   key            = computed(()=>`page-${locale.value}-${path.value?.replace(/\//g, '-')}`);
 
@@ -47,6 +48,16 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         return d[0]
     }
 
+    async function skipPath(){
+        const skipPaths = ['/.well-known','/fonts.googleapis.com','/.well-known/appspecific'];
+
+        // for(let p of skipPaths)
+        //     if(path?.value?.includes(p))  consola.info(`Skipping path ${path.value} due to skip path ${p}`)
+
+        for(let p of skipPaths)
+            if(path?.value?.includes(p)) return  abortNavigation(`/`);
+
+    }
     function removeLocaleFromPath(path) {
         if (!path || typeof path !== 'string') return path;
     
