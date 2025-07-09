@@ -88,13 +88,14 @@ export const useTopMenus = (to) => {
         const $limit   = 50;
         const ag       = JSON.stringify([{ $match }, { $project }, { $sort }, { $limit }]);
     
-    
         return { ag };
     });
-    return async ()=>{
-        const { data, status, error, refresh } =  await useFetch(`${cbdApi}/api/v2017/articles`, {  method: 'GET', query, key:key.value, getCachedData, transform }); //key: 'hero-image', getCachedData
 
-        // const menus = cleanMenus(data.value, locale, pathKey);
+    const request  =  useLazyFetch(`${cbdApi}/api/v2017/articles`, {  method: 'GET', query, key:key.value, getCachedData, transform }); //key: 'hero-image', getCachedData
+
+    return async ()=>{
+        const { data, status, error, refresh } = await request;
+
         return { data, status, error, refresh, pathKey };
     }
     /**
