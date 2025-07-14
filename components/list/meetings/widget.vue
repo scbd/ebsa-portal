@@ -27,11 +27,12 @@
         <div v-if="past.meetings.length"  :class="{'col-12':!future.meetings.length, 'col-6':future.meetings.length}">
             <table class="ebsa-table table table-striped">
                 <thead>
-                    <th><img src="/img/icon-home.png" alt="meeting icon" />  {{t('Previous Meetings')}}</th>
-                    <th>
-                    <div class="push5"></div><div class="push5"></div>
-
-                    </th>
+                    <tr>
+                        <th><img src="/img/icon-home.png" alt="meeting icon" />  {{t('Previous Meetings')}}</th>
+                        <th>
+                            <div class="push5"></div><div class="push5"></div>
+                        </th>
+                    </tr>
                 </thead>
 
                 <tr v-if="!past.meetings.length">
