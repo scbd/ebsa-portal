@@ -17,23 +17,22 @@
 </template>
 
 <script setup>
-const route       = useRoute     ();
+const route       = useRoute();
+const router      = useRouter();
 const localePath  = useLocalePath();
-const getTopMenus = useTopMenus  ();
+const getTopMenus = useTopMenus (route);
 
 const { isFirstLevel, firstLevel } = useMenuLevels();
 
-const isActive     = (aMenu) => isFirstLevel(aMenu)? [aMenu.path, aMenu.link].includes(route.path) : route.path.startsWith(aMenu.path) || route.path.startsWith(aMenu.link);
+const isActive = (aMenu) => isFirstLevel(aMenu)? [aMenu.path, aMenu.link].includes(route.path) : route.path.startsWith(aMenu.path) || route.path.startsWith(aMenu.link);
 
 const { data:menus, status, error, refresh } = await getTopMenus();
 
-
-watch(() => route.path, async (to, from) => {  
+watch( () => route.path, async (to, from) => {  
 
     if(firstLevel(to) !== firstLevel(from))
         await refresh(); 
 })
-
 </script>
 
 <style scoped>

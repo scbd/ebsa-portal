@@ -5,6 +5,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const { cbdApi }       = useRuntimeConfig().public;
     const   path           = computed(()=> to?.path );
 
+    await   skipPath();
     const   locale         = nuxtApp.$i18n.locale;
     const   key            = computed(()=>`page-${locale.value}-${path.value?.replace(/\//g, '-')}`);
 
@@ -36,15 +37,21 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     if(p.value.path !== page.path) p.value = page;
 
-    // const topMenus = await getTopMenus();
     eventBus.emit('page', page);
-
-
 
     function transform(data){
         const d =  data.map((a)=> ({...a, redirectTo: a?.customProperties?.redirectTo, adminTagsLength: a?.adminTags?.length || 0})).sort((a,b)=> sortArrayOfObjectsByProp(a,b, 'adminTagsLength', 'desc'));
 
         return d[0]
+    }
+
+    async function skipPath(){
+        const skipPaths = ['/.well-known','/fonts.googleapis.com','/.well-known/appspecific'];
+
+        for(let p of skipPaths)
+            if(path?.value?.includes(p)) 
+                return  abortNavigation(`/`);
+
     }
 
     function removeLocaleFromPath(path) {

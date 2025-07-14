@@ -37,6 +37,15 @@
  *   // Show top-level navigation
  * }
  */
+/**
+ * Menu utilities and composables for EBSA portal navigation
+ * Exports: useMenuLevels, useParentPath, useHomePath, useTopMenus, cleanMenus
+ */
+
+/**
+ * Composable for determining menu navigation levels based on current route
+ * @returns {Object} Navigation level utilities and computed properties
+ */
 export const useMenuLevels = () => {
     const { locale }         = useI18n();
     const   route            = useRoute();
@@ -47,17 +56,16 @@ export const useMenuLevels = () => {
     const   isThirdLevel     = computed(()=> unref(isEn)? routeArray.value?.length === 3 : routeArray.value?.length === 4);  
 
     /**
-     * Check if a menu item represents a first-level navigation item
-     * @param {Object} aMenu - Menu object with path property
-     * @param {string} aMenu.path - The path of the menu item
-     * @returns {boolean} True if menu item is first level
+     * Checks if a menu item is at the first level of navigation
+     * @param {Object} aMenu - Menu item object with path property
+     * @returns {boolean} True if menu is at first level
      */
     const isFirstLevel = (aMenu) => isEn.value? aMenu.path.split('/').length === 2 : aMenu.path.split('/').length === 3;
     
     /**
-     * Extract the first-level path from any given path
-     * @param {string} path - Full path to extract first level from
-     * @returns {string} First-level path
+     * Extracts the first level path from a given path
+     * @param {string} path - Full path string
+     * @returns {string} First level path
      */
     const firstLevel = (path) => isEn.value? `/`+path.split('/')[1]: `/`+path.split('/')[2];
 
@@ -83,6 +91,10 @@ export const useMenuLevels = () => {
  *   // Show back button to parentPath.value
  * }
  */
+/**
+ * Composable for getting parent path information for the current route
+ * @returns {Object} Parent path utilities and computed properties
+ */
 export const useParentPath = () => {
     const   route    = useRoute();
 
@@ -104,6 +116,10 @@ export const useParentPath = () => {
  * @example
  * const getHomePath = useHomePath();
  * const homePath = getHomePath(customRoute); // Returns computed ref to home path
+ */
+/**
+ * Composable for getting home path based on current route and locale
+ * @returns {Function} Function that takes a route object and returns computed home path
  */
 export const useHomePath = () => {
     const   route          = useRoute();
@@ -148,6 +164,11 @@ export const useHomePath = () => {
  * 
  * @throws {Error} When API request fails or returns invalid data
  */
+/**
+ * Composable for fetching and managing top-level menu items
+ * @param {Object} to - Optional route object to determine path context
+ * @returns {Function} Async function that returns object with data, status, error, refresh, and pathKey
+ */
 export const useTopMenus = (to) => {
     const { locale }       = useI18n();
     const   eventBus       = useEventBus();
@@ -171,105 +192,45 @@ export const useTopMenus = (to) => {
         const $limit   = 50;
         const ag       = JSON.stringify([{ $match }, { $project }, { $sort }, { $limit }]);
     
-    
         return { ag };
     });
-    
-    /**
-     * Async function that executes the menu fetch operation
-     * 
-     * @async
-     * @function fetchMenuData
-     * @returns {Promise<Object>} Object containing fetch results and utilities
-     * @returns {Ref<Array>} returns.data - Transformed menu data array
-     * @returns {Ref<string>} returns.status - HTTP status of the request
-     * @returns {Ref<Error|null>} returns.error - Error object if request failed
-     * @returns {Function} returns.refresh - Function to refresh the data
-     * @returns {ComputedRef<string>} returns.pathKey - Current path key for debugging
-     * 
-     * @throws {Error} When API request fails or returns no data
-     */
+
+    const request  =  useLazyFetch(`${cbdApi}/api/v2017/articles`, {  method: 'GET', query, key:key.value, getCachedData, transform }); //key: 'hero-image', getCachedData
+
     return async ()=>{
-        const { data, status, error, refresh } =  await useFetch(`${cbdApi}/api/v2017/articles`, {  method: 'GET', query, key:key.value, getCachedData, transform }); //key: 'hero-image', getCachedData
+        const { data, status, error, refresh } = await request;
 
-        // Debug logging for useFetch issues
-        if (error.value) {
-            console.error('[useTopMenus] useFetch error:', {
-                error: error.value,
-                status: status.value,
-                url: `${cbdApi}/api/v2017/articles`,
-                query: query.value,
-                key: key.value,
-                pathKey: pathKey.value
-            });
-        }
-
-        if (!data.value || data.value.length === 0) {
-            console.error('[useTopMenus] useFetch returned no data:', {
-                data: data.value,
-                status: status.value,
-                url: `${cbdApi}/api/v2017/articles`,
-                query: query.value,
-                key: key.value,
-                pathKey: pathKey.value
-            });
-        }
-
-        // const menus = cleanMenus(data.value, locale, pathKey);
         return { data, status, error, refresh, pathKey };
     }
-    
     /**
-     * Transform function for menu data from API response
-     * 
-     * Converts raw API menu objects into standardized menu items with
-     * localized titles and proper routing paths.
-     * 
-     * @function transform
-     * @param {Array<Object>} data - Raw menu data from API
-     * @param {string} data[].id - Menu item ID
-     * @param {Object} data[].title - Title object with locale keys
-     * @param {string[]} data[].adminTags - Admin tags for categorization
-     * @param {Object} data[].customProperties - Custom properties including redirects
-     * @returns {Array<Object>} Transformed menu items
-     * @returns {string} returns[]._id - Menu item ID
-     * @returns {string} returns[].title - Localized title
-     * @returns {string} returns[].path - Navigation path
-     * @returns {string} returns[].link - Same as path (for compatibility)
+     * Transforms raw menu data from API into structured menu items with sorting
+     * @param {Array} rawMenuData - Raw menu data from the API
+     * @returns {Array} Transformed and sorted menu items
      */
-    function transform(data){
-        return data.map((aMenu)=>{
-
+    function transform(rawMenuData){
+        return rawMenuData.map((aMenu)=>{
             const hasRedirect = aMenu.customProperties?.mainMenuRedirect;
             const title = getTitle(aMenu, locale);
             const path  = hasRedirect? hasRedirect : getPath(aMenu, pathKey);
-            const link  = path
-            return { _id:aMenu._id, title, path, link};
-        });
+            const link  = path;
+            const order = Number(aMenu.customProperties?.order) || 0;
+            
+            return { _id:aMenu._id, title, path, link, order};
+        }).sort((a, b) => a.order - b.order);
     }
 }
 
+
 /**
- * Clean and transform menu data for rendering
- * 
- * Legacy function that transforms menu data. This function is kept for
- * backwards compatibility but is not currently used in the main flow.
- * 
- * @function cleanMenus
- * @param {Array<Object>} m - Array of raw menu objects
- * @param {Ref<string>} locale - Current locale reference
- * @param {ComputedRef<string>} parentPath - Parent path reference
- * @returns {Array<Object>} Cleaned menu objects
- * @returns {string} returns[].title - Localized menu title
- * @returns {string} returns[].path - Menu navigation path
- * @returns {string} returns[].link - Same as path (for compatibility)
- * 
- * @deprecated This function is kept for backwards compatibility
- * @example
- * const cleanedMenus = cleanMenus(rawMenus, locale, parentPath);
+ * Cleans and transforms menu data into a simplified format
+ * @param {Array} rawMenus - Array of raw menu items
+ * @param {string} locale - Current locale string
+ * @param {string} parentPath - Parent path for menu context
+ * @returns {Array} Array of cleaned menu items with title, path, and link
  */
-export function cleanMenus(m, locale, parentPath){
-    return m.map((aMenu)=>{
+
+export function cleanMenus(rawMenus, locale, parentPath){
+    return rawMenus.map((aMenu)=>{
         const title = getTitle(aMenu, locale);
         const path  = getPath(aMenu, parentPath);
         const link  = path
@@ -277,42 +238,22 @@ export function cleanMenus(m, locale, parentPath){
     });
 }
 
+
 /**
- * Extract localized title from menu object
- * 
- * Gets the title in the current locale, falling back to English if
- * the current locale is not available.
- * 
- * @function getTitle
- * @param {Object} aMenu - Menu object with title property
- * @param {Object} aMenu.title - Title object with locale keys
- * @param {string} aMenu.title.en - English title (fallback)
- * @param {Ref<string>} locale - Current locale reference
- * @returns {string} Localized title string
- * 
- * @example
- * const title = getTitle(menuItem, locale);
- * // Returns: "About Us" (if locale is 'en') or "À propos" (if locale is 'fr')
+ * Extracts the localized title from a menu item
+ * @param {Object} aMenu - Menu item object with title property
+ * @param {string} locale - Current locale string
+ * @returns {string} Localized title or English fallback
  */
 function getTitle(aMenu, locale){
     return aMenu?.title[unref(locale)] || aMenu?.title?.en;
 }
 
 /**
- * Generate navigation path from menu admin tags
- * 
- * Extracts the appropriate path segment from admin tags based on
- * the parent path and tag structure depth.
- * 
- * @function getPath
- * @param {Object} aMenu - Menu object with adminTags
- * @param {string[]} aMenu.adminTags - Array of admin tags for categorization
- * @param {ComputedRef<string>} parentPath - Parent path reference
- * @returns {string} Generated navigation path
- * 
- * @example
- * const path = getPath(menuItem, parentPath);
- * // Returns: "/ebsas/meetings" based on admin tags structure
+ * Extracts the appropriate path from a menu item based on its admin tags
+ * @param {Object} aMenu - Menu item object with adminTags property
+ * @param {Object} parentPath - Parent path object with value property
+ * @returns {string} Extracted path string
  */
 function getPath(aMenu, parentPath){
     const size = aMenu.adminTags.length;
