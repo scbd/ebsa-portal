@@ -2,7 +2,7 @@
 <template>
 <div class="w-100 h-100 d-flex flex-column  align-items-center justify-content-between">
   <div class="position-absolute  top-0 w-75 mt-3  text-white">
-   
+
       <div class="ck-content  p-3 text-white">
                 <div ref="contentEl" class="cont" v-html="htmlSanitize(content)"></div>
       </div>
@@ -10,17 +10,17 @@
   </div>
   <div class="center ">
     <div class="d-flex justify-content-between">
-      <NuxtLink  v-for="(button, key) of buttons"  :to="localPath(button.path)" class="text-decoration-none">
+      <div  @click="gotTo(button.path)" v-for="(button, key) of buttons"  class="text-decoration-none">
         <button class="landing-button mx-5" :class="{ 'landing-button-alt': key%2 }" >
           <span class="text-center">{{button.name}}</span>
+          <span class="text-center">{{button.path}}</span>
         </button>
-      </NuxtLink>
+      </div>
     </div>
   </div>
-
+ 
   <ClientOnly>
     <div v-if="canEdit" class="position-absolute top-0 w-100 d-flex justify-content-end">
-   
       <button  @click="gotToEdit" class="btn  btn-sm btn-light m-2" external>
           <Icon name="edit" color="#000000"/>
       </button>
@@ -57,6 +57,11 @@ const canEdit = computed(()=>_id.value && isAuthenticated.value && hasRole(editR
 async function gotToEdit(){
   await navigateTo(editUri.value, {external: true});
 }
+
+async function gotTo(to='/ebsa/repository'){
+  await navigateTo(to , {}).then(()=>reloadNuxtApp());  
+}
+
 function makeButtons(){
     const buttons = [];
 

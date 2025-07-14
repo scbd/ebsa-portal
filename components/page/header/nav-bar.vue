@@ -19,7 +19,7 @@
 <script setup>
 const route       = useRoute     ();
 const localePath  = useLocalePath();
-const getTopMenus = useTopMenus  ();
+const getTopMenus = useTopMenus (route);
 
 const { isFirstLevel, firstLevel } = useMenuLevels();
 
