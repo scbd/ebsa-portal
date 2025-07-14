@@ -66,7 +66,7 @@ export const useHomePath = () => {
 /**
  * Composable for fetching and managing top-level menu items
  * @param {Object} to - Optional route object to determine path context
- * @returns {Function} Async function that fetches menu data with caching and transformation
+ * @returns {Function} Async function that returns object with data, status, error, refresh, and pathKey
  */
 export const useTopMenus = (to) => {
     const { locale }       = useI18n();
@@ -100,11 +100,12 @@ export const useTopMenus = (to) => {
     }
     /**
      * Transforms raw menu data from API into structured menu items with sorting
-     * @param {Array} data - Raw menu data from the API
+
+     * @param {Array} rawMenuData - Raw menu data from the API
      * @returns {Array} Transformed and sorted menu items
      */
-    function transform(data){
-        return data.map((aMenu)=>{
+    function transform(rawMenuData){
+        return rawMenuData.map((aMenu)=>{
             const hasRedirect = aMenu.customProperties?.mainMenuRedirect;
             const title = getTitle(aMenu, locale);
             const path  = hasRedirect? hasRedirect : getPath(aMenu, pathKey);
@@ -119,13 +120,14 @@ export const useTopMenus = (to) => {
 
 /**
  * Cleans and transforms menu data into a simplified format
- * @param {Array} m - Array of raw menu items
+ * @param {Array} rawMenus - Array of raw menu items
  * @param {string} locale - Current locale string
  * @param {string} parentPath - Parent path for menu context
  * @returns {Array} Array of cleaned menu items with title, path, and link
  */
-export function cleanMenus(m, locale, parentPath){
-    return m.map((aMenu)=>{
+
+export function cleanMenus(rawMenus, locale, parentPath){
+    return rawMenus.map((aMenu)=>{
         const title = getTitle(aMenu, locale);
         const path  = getPath(aMenu, parentPath);
         const link  = path
