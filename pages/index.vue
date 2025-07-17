@@ -1,19 +1,18 @@
 
 <template>
-<div class="w-100 h-100 d-flex flex-column  align-items-center justify-content-between">
-  <div class="position-absolute  top-0 w-75 mt-3  text-white">
+<div class="w-100 h-100 d-flex flex-column  align-items-center ">
+  <div class="position  top-0 w-75 mt-3  text-white">
 
       <div class="ck-content  p-3 text-white">
                 <div ref="contentEl" class="cont" v-html="htmlSanitize(content)"></div>
       </div>
                         
   </div>
-  <div class="center ">
-    <div class="d-flex justify-content-between">
-      <div  @click="gotTo(button.path)" v-for="(button, key) of buttons"  class="text-decoration-none">
-        <button class="landing-button mx-5" :class="{ 'landing-button-alt': key%2 }" >
+  <div >
+    <div class="d-flex justify-content-between flex-wrap">
+      <div  @click="gotTo(button.path)" v-for="(button, key) of buttons"  class="text-decoration-none me-auto ms-auto">
+        <button class="landing-button mx-5 my-5" :class="{ 'landing-button-alt': key%2 }" >
           <span class="text-center">{{button.name}}</span>
-          <span class="text-center">{{button.path}}</span>
         </button>
       </div>
     </div>
