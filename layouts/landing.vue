@@ -44,4 +44,9 @@
     // font-size: 70px;
     // margin-top: 100px;
 }
+@media (max-width: 768px) {
+    .full-screen-video-container {
+        height: 130vh;
+    }
+}
 </style>
