@@ -19,7 +19,7 @@
 
 <script setup>
 const   props          = defineProps({ menus: { type: Array } });
-const   parent         = ref({});
+const   parent         = ref(null);
 const { locale }       = useI18n();
 const   menus          = computed(()=>normalizeMenus(props.menus));
 
