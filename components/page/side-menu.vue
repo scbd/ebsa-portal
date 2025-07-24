@@ -19,33 +19,16 @@
 
 <script setup>
 const   props          = defineProps({ menus: { type: Array } });
-const   parent         = useState('parent-page');
+const   parent         = ref(null);
 const { locale }       = useI18n();
-// const { parentPath }   = useParentPath();
-const   menus          = computed(()=>props.menus);
+const   menus          = computed(()=>normalizeMenus(props.menus));
 
+function normalizeMenus(menus){
+    parent.value = menus[0]
 
-function cleanMenus(){
-    return props.menus.map((aMenu)=>{
-        const title = getTitle(aMenu);
-        const path  = getPath(aMenu);
-
-        return { title, path };
-    });
+    return menus.slice(1)
 }
 
-
-// function getTitle(aMenu){
-//     return aMenu?.title[locale.value] || aMenu?.title?.en;
-// }
-
-// function getPath(aMenu){
-
-//     const tags = aMenu.adminTags.filter(tag=>!['ebsa-portal', parentPath.value].includes(tag));
-//     const tag  = tags.find(tag=>tag.startsWith(parentPath.value));
-
-//     return tag;
-// }
 </script>
 <style scoped>
 li {

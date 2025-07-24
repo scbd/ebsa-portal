@@ -35,7 +35,7 @@ const redirectTo       = computed(()=>page.value?.customProperties?.redirectTo);
 
 onMounted(()=>preProcessOEmbed());
 const query = computed(() => {
-    const $match   = { "adminTags" : { $all: ['ebsa-portal', `${parentPathSearch.value}`], $size:4 }};
+    const $match   = { "adminTags" : { $all: ['ebsa-portal', `${parentPathSearch.value}`] }, $or: [ { adminTags: { $size: 3 } }, { adminTags: { $size: 4 } } ]};
     const $project = { title:1, adminTags:1, customProperties:1 };
     const $sort    = { 'customProperties.order': 1 };  
     const $limit   = 50;
